@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo pause | mplayer -slave out.avi
