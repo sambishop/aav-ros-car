@@ -52,6 +52,7 @@ public:
                   << "Input" << input
            << "}";
     }
+
     void read(const FileNode& node)                          //Read serialization for this class
     {
         node["BoardSize_Width" ] >> boardSize.width;
@@ -71,6 +72,7 @@ public:
         node["Input_Delay"] >> delay;
         interprate();
     }
+
     void interprate()
     {
         goodInput = true;
@@ -141,6 +143,7 @@ public:
         atImageList = 0;
 
     }
+
     Mat nextImage()
     {
         Mat result;
@@ -170,6 +173,7 @@ public:
             l.push_back((string)*it);
         return true;
     }
+
 public:
     Size boardSize;            // The size of the board -> Number of items by width and height
     Pattern calibrationPattern;// One of the Chessboard, circles, or asymmetric circle pattern
@@ -186,8 +190,6 @@ public:
     bool showUndistorsed;       // Show undistorted images after calibration
     string input;               // The input ->
 
-
-
     int cameraID;
     vector<string> imageList;
     int atImageList;
@@ -198,8 +200,6 @@ public:
 
 private:
     string patternToUse;
-
-
 };
 
 static void read(const FileNode& node, Settings& x, const Settings& default_value = Settings())
