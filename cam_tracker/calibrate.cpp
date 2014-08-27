@@ -23,8 +23,7 @@ static void help()
             "how to edit it.  It may be any OpenCV-supported file format XML/YAML." << endl;
 }
 
-class Settings
-{
+class Settings {
 public:
     Settings() : goodInput(false) {}
     enum Pattern { NOT_EXISTING, CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID };
@@ -76,40 +75,31 @@ public:
     void interprate()
     {
         goodInput = true;
-        if (boardSize.width <= 0 || boardSize.height <= 0)
-        {
+        if (boardSize.width <= 0 || boardSize.height <= 0) {
             cerr << "Invalid Board size: " << boardSize.width << " " << boardSize.height << endl;
             goodInput = false;
         }
-        if (squareSize <= 10e-6)
-        {
+        if (squareSize <= 10e-6) {
             cerr << "Invalid square size " << squareSize << endl;
             goodInput = false;
         }
-        if (nrFrames <= 0)
-        {
+        if (nrFrames <= 0) {
             cerr << "Invalid number of frames " << nrFrames << endl;
             goodInput = false;
         }
 
         if (input.empty())      // Check for valid input
                 inputType = INVALID;
-        else
-        {
-            if (input[0] >= '0' && input[0] <= '9')
-            {
+        else {
+            if (input[0] >= '0' && input[0] <= '9') {
                 stringstream ss(input);
                 ss >> cameraID;
                 inputType = CAMERA;
-            }
-            else
-            {
-                if (readStringList(input, imageList))
-                    {
-                        inputType = IMAGE_LIST;
-                        nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
-                    }
-                else
+            } else {
+                if (readStringList(input, imageList)) {
+                    inputType = IMAGE_LIST;
+                    nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
+                } else
                     inputType = VIDEO_FILE;
             }
             if (inputType == CAMERA)
@@ -119,8 +109,7 @@ public:
             if (inputType != IMAGE_LIST && !inputCapture.isOpened())
                     inputType = INVALID;
         }
-        if (inputType == INVALID)
-        {
+        if (inputType == INVALID) {
             cerr << " Inexistent input: " << input;
             goodInput = false;
         }
@@ -135,41 +124,37 @@ public:
         if (!patternToUse.compare("CHESSBOARD")) calibrationPattern = CHESSBOARD;
         if (!patternToUse.compare("CIRCLES_GRID")) calibrationPattern = CIRCLES_GRID;
         if (!patternToUse.compare("ASYMMETRIC_CIRCLES_GRID")) calibrationPattern = ASYMMETRIC_CIRCLES_GRID;
-        if (calibrationPattern == NOT_EXISTING)
-            {
-                cerr << " Inexistent camera calibration mode: " << patternToUse << endl;
-                goodInput = false;
-            }
+        if (calibrationPattern == NOT_EXISTING) {
+            cerr << " Inexistent camera calibration mode: " << patternToUse << endl;
+            goodInput = false;
+        }
         atImageList = 0;
-
     }
 
     Mat nextImage()
     {
         Mat result;
-        if( inputCapture.isOpened() )
-        {
+        if (inputCapture.isOpened()) {
             Mat view0;
             inputCapture >> view0;
             view0.copyTo(result);
-        }
-        else if( atImageList < (int)imageList.size() )
+        } else if (atImageList < (int)imageList.size())
             result = imread(imageList[atImageList++], CV_LOAD_IMAGE_COLOR);
 
         return result;
     }
 
-    static bool readStringList( const string& filename, vector<string>& l )
+    static bool readStringList(const string& filename, vector<string>& l)
     {
         l.clear();
         FileStorage fs(filename, FileStorage::READ);
-        if( !fs.isOpened() )
+        if (!fs.isOpened())
             return false;
         FileNode n = fs.getFirstTopLevelNode();
-        if( n.type() != FileNode::SEQ )
+        if (n.type() != FileNode::SEQ)
             return false;
         FileNodeIterator it = n.begin(), it_end = n.end();
-        for( ; it != it_end; ++it )
+        for ( ; it != it_end; ++it)
             l.push_back((string)*it);
         return true;
     }
