@@ -95,7 +95,7 @@ public:
         // Check for valid input
         if (input.empty()) {
                 inputType = INVALID;
-        else {
+        } else {
             if (input[0] >= '0' && input[0] <= '9') {
                 stringstream ss(input);
                 ss >> cameraID;
@@ -104,7 +104,7 @@ public:
                 if (readStringList(input, imageList)) {
                     inputType = IMAGE_LIST;
                     nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
-                } else
+                } else {
                     inputType = VIDEO_FILE;
                 }
             }
@@ -144,7 +144,7 @@ public:
             Mat view0;
             inputCapture >> view0;
             view0.copyTo(result);
-        } else if (atImageList < (int)imageList.size())
+        } else if (atImageList < (int)imageList.size()) {
             result = imread(imageList[atImageList++], CV_LOAD_IMAGE_COLOR);
         }
         return result;
