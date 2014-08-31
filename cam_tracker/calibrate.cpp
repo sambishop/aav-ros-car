@@ -26,8 +26,12 @@ static void help()
 class Settings {
 public:
     Settings() : goodInput(false) {}
-    enum Pattern { NOT_EXISTING, CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID };
-    enum InputType {INVALID, CAMERA, VIDEO_FILE, IMAGE_LIST};
+    enum Pattern {
+        NOT_EXISTING, CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID
+    };
+    enum InputType {
+        INVALID, CAMERA, VIDEO_FILE, IMAGE_LIST
+    };
 
     void write(FileStorage& fs) const                        //Write serialization for this class
     {
@@ -88,7 +92,8 @@ public:
             goodInput = false;
         }
 
-        if (input.empty())      // Check for valid input
+        // Check for valid input
+        if (input.empty()) {
                 inputType = INVALID;
         else {
             if (input[0] >= '0' && input[0] <= '9') {
@@ -101,6 +106,7 @@ public:
                     nrFrames = (nrFrames < (int)imageList.size()) ? nrFrames : (int)imageList.size();
                 } else
                     inputType = VIDEO_FILE;
+                }
             }
             if (inputType == CAMERA)
                 inputCapture.open(cameraID);
@@ -140,7 +146,7 @@ public:
             view0.copyTo(result);
         } else if (atImageList < (int)imageList.size())
             result = imread(imageList[atImageList++], CV_LOAD_IMAGE_COLOR);
-
+        }
         return result;
     }
 
@@ -189,16 +195,21 @@ private:
 
 static void read(const FileNode& node, Settings& x, const Settings& default_value = Settings())
 {
-    if(node.empty())
+    if (node.empty()) {
         x = default_value;
-    else
+    } else {
         x.read(node);
+    }
 }
 
-enum { DETECTION = 0, CAPTURING = 1, CALIBRATED = 2 };
+enum {
+    DETECTION = 0,
+    CAPTURING = 1,
+    CALIBRATED = 2
+};
 
 bool runCalibrationAndSave(Settings& s, Size imageSize, Mat&  cameraMatrix, Mat& distCoeffs,
-                           vector<vector<Point2f> > imagePoints );
+                           vector<vector<Point2f> > imagePoints);
 
 int main(int argc, char* argv[])
 {
