@@ -16,7 +16,8 @@ operating in "playback" or "capture" mode.  Two threads are used in
 "playback" mode: one that reads the file, and the main thread that does the
 actual analysis work.  Three threads are used in "capture" mode: one
 captures video from the camera, the main thread does the actual analysis
-work, and the third thread writes the captured video to a file.
+work, and the third thread writes the captured video to a file called
+"capture.avi".
 
 The threads form a chain of simple single-producer/single-consumer pairs.
 Only pointers to images are passed between threads, and this is done using
@@ -37,17 +38,43 @@ The cam_tracker application needs a few things in order to operate:
   7. The GPS coordinates of the on-the-ground center point referenced in
      items #3 and #4.
 
+Item #1, the camera parameters, are stored in a file called camera_data.xml.
 Item #5, the ground image, is captured at the beginning of each test and
-stored in a file called "ground.jpg".  Item #6, the car image, can be
-reused between tests.  It is stored in a file called "car.jpg".
+stored in a file called "ground.jpg".  Item #6, the car image, can be reused
+between tests.  It is stored in a file called "car.jpg".
 
                            *** Operation ***
 The main thread does the following with each image from the stream:
 
-  1. Search for the center of the ground image.
-  2. Search for the center of the car image and determine the direction it
+  1. Compensate for image distortion using the intrinsic camera parameters.
+  2. Search for the center of the ground image.
+  3. Search for the center of the car image and determine the direction it
      is facing.
-  3. Calculate the position of the car's center, taking into account any
+  4. Calculate the position of the car's center, taking into account any
      shift in the ground image.
-  4. Publish the car's pose (position and direction) on a ROS topic.
+  5. Publish the car's pose (position and direction) on a ROS topic.
+
+The intrinsic camera parameters are read from a camera_data.xml file within
+the current directory.  In "capture" mode, a copy of the camera_data.xml
+file is written to the output directory.
+
+The car image is read from a car.jpg file within the current directory.  In
+"capture" mode, a copy of the car.jpg file is written to the output
+directory.
+
+                    *** Example Filesystem Layout ***
+cam_tracker/
+  camera_data.xml
+  cam_tracker
+  car.jpg
+  test_001/
+    camera_data.xml
+    capture.avi
+    car.jpg
+    ground.jpg
+  test_002/
+    camera_data.xml
+    capture.avi
+    car.jpg
+    ground.jpg
 
