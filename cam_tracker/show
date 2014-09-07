@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo pause | mplayer -slave "$@" &
+echo pause | mplayer -nolirc -noaspect -vo x11 -slave "$@" &
