@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+import subprocess
+import sys
+
+usage = '''usage: take_car_snapshot using URL
+
+URL must be an MJPEG stream.
+'''
+
+if len(sys.argv) != 3 or sys.argv[1] != 'using':
+    print(usage, end='')
+    sys.exit()
+
+url = sys.argv[2]
+subprocess.call([
+        'vlc',
+        '--snapshot-path', 'car_snapshot.jpg',
+        '--snapshot-format', 'jpg',
+        sys.argv[2] + '/video'
+    ])
+
