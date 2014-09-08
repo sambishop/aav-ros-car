@@ -1,24 +1,18 @@
 $ ./begin_experiment using http://192.168.0.8:8080
 $ ./capture_camera_intrinsics from http://192.168.0.8:8080
 $ ./measure_triangle_lengths
-$ ./take_car_snapshot using http://192.168.0.8:8080
 $ mkdir x001
-$ cp camera_intrinsics.xml car_snapshot.jpg triangle_lengths.xml x001
+$ cp camera_intrinsics.xml triangle_lengths.xml x001
 $ cd x001
-$ ../take_ground_snapshot using http://192.168.0.8:8080
 $ ../capture_experiment_video using http://192.168.0.8:8080
-$ ../track car_snapshot.jpg in experiment_video.avi \
-    against ground_snapshot.jpg \
+$ ../track_car in experiment_video.avi \
     using camera_intrinsics.xml and triangle_lengths.xml
 
 cam_tracker/
   camera_intrinsics.xml
-  car_snapshot.jpg
   triangle_lengths.xml
   x001/
     camera_intrinsics.xml
-    car_snapshot.jpg
     experiment_video.avi
-    ground_snapshot.jpg
     triangle_lengths.xml
 
