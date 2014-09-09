@@ -1,18 +1,21 @@
 $ ./begin_experiment using http://192.168.0.8:8080
 $ ./capture_camera_intrinsics from http://192.168.0.8:8080
-$ ./measure_triangle_lengths
+$ ./calibrate_color_filter using http://192.168.0.8:8080
+$ ./measure_triangle_lengths using http://192.168.0.8:8080
 $ mkdir x001
-$ cp camera_intrinsics.xml triangle_lengths.xml x001
+$ cp camera_intrinsics.xml color_filter.xml triangle_lengths.xml x001
 $ cd x001
 $ ../capture_experiment_video using http://192.168.0.8:8080
 $ ../track_car in experiment_video.avi \
-    using camera_intrinsics.xml and triangle_lengths.xml
+    using camera_intrinsics.xml color_filter.xml triangle_lengths.xml
 
 cam_tracker/
   camera_intrinsics.xml
+  color_filter.xml
   triangle_lengths.xml
   x001/
     camera_intrinsics.xml
+    color_filter.xml
     experiment_video.avi
     triangle_lengths.xml
 
