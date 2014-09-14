@@ -18,16 +18,16 @@ def find_homography(matches, kp1, kp2):
     train_pts = np.float32([kp2[m.trainIdx].pt for m in matches]).reshape(-1, 1, 2)
     return cv2.findHomography(query_pts, train_pts, cv2.RANSAC, 5.0)
 
-training_image = cv2.imread('car.png', 0)
-query_image = cv2.imread('car-snapshot.png', 0)
-
 sift = cv2.SIFT()
-training_image_keypoints, training_image_descriptors = sift.detectAndCompute(training_image, None)
-query_image_keypoints, query_image_descriptors = sift.detectAndCompute(query_image, None)
+bf = cv2.BFMatcher()
 
+training_image = cv2.imread('car.png', 0)
+training_image_keypoints, training_image_descriptors = sift.detectAndCompute(training_image, None)
 training_center = find_center(training_image, training_image_keypoints)
 
-bf = cv2.BFMatcher()
+query_image = cv2.imread('car-snapshot.png', 0)
+query_image_keypoints, query_image_descriptors = sift.detectAndCompute(query_image, None)
+
 matches = bf.knnMatch(training_image_descriptors, query_image_descriptors, k=2)
 
 good_matches = []
@@ -36,20 +36,10 @@ for m, n in matches:
         good_matches.append(m)
 
 M, mask = find_homography(good_matches, training_image_keypoints, query_image_keypoints)
-query_center = cv2.perspectiveTransform(np.float32([[training_center[0], training_center[1]]]).reshape(-1, 1, 2), M)
+pts = np.float32([[training_center[0], training_center[1]]]).reshape(-1, 1, 2)
+query_center = cv2.perspectiveTransform(pts, M)
 print query_center
-
-#h, w = training_image.shape
-#pts1 = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]])
-#print pts1.shape
-#pts2 = pts1.reshape(-1, 1, 2)
-#print pts2.shape
-#dst = cv2.perspectiveTransform(pts2, M)
-#cv2.polylines(query_image, [np.int32(dst)], True, 255, 3)
-
 
 plt.imshow(query_image)
 plt.show()
-
-#cv2.imwrite('sift_keypoints.jpg', img3)
 
