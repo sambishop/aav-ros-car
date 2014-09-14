@@ -37,8 +37,9 @@ for m, n in matches:
 
 M, mask = find_homography(good_matches, training_image_keypoints, query_image_keypoints)
 pts = np.float32([[training_center[0], training_center[1]]]).reshape(-1, 1, 2)
-query_center = cv2.perspectiveTransform(pts, M)
+query_center = cv2.perspectiveTransform(pts, M)[0][0]
 print query_center
+cv2.circle(query_image, (query_center[0], query_center[1]), 4, 255, -1)
 
 plt.imshow(query_image)
 plt.show()
