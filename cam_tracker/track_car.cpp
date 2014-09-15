@@ -3,6 +3,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/nonfree/features2d.hpp>
 #include <stdio.h>
 #include <vector>
 
@@ -39,29 +40,24 @@ Mat find_homography(vector<DMatch> good_matches,
 
 int main(int argc, char **argv)
 {
-    SiftFeatureDetector detector;
-    SiftDescriptorExtractor extractor;
-    BruteForceMatcher<L2<float> > matcher;
+    SIFT sift;
+    BFMatcher matcher;
 
     Mat training_image = imread("car.png", 0);
     vector<KeyPoint> training_image_keypoints;
-    detector.detect(training_image, training_image_keypoints);
-    printf("# kps: %d\n", training_image_keypoints.size());
+    sift.detect(training_image, training_image_keypoints, Mat());
+    printf("# kps: %lu\n", training_image_keypoints.size());
     Mat training_image_descriptors;
-    extractor.compute(training_image,
-            training_image_keypoints,
-            training_image_descriptors);
+    sift.compute(training_image, training_image_keypoints, training_image_descriptors);
     Point2f training_center =
         find_center(training_image, training_image_keypoints);
 
     Mat query_image = imread("car-snapshot.png", 0);
     vector<KeyPoint> query_image_keypoints;
-    detector.detect(query_image, query_image_keypoints);
-    printf("# kps: %d\n", query_image_keypoints.size());
+    sift.detect(query_image, query_image_keypoints, Mat());
+    printf("# kps: %lu\n", query_image_keypoints.size());
     Mat query_image_descriptors;
-    extractor.compute(query_image,
-            query_image_keypoints,
-            query_image_descriptors);
+    sift.compute(query_image, query_image_keypoints, query_image_descriptors);
 
     vector<vector<DMatch> > matches;
     matcher.knnMatch(training_image_descriptors,
@@ -69,20 +65,19 @@ int main(int argc, char **argv)
             matches,
             2);
     vector<DMatch> good_matches;
-    printf("%d\n", matches.size());
+    printf("%lu\n", matches.size());
     for (unsigned i = 0; i < matches.size(); ++i) {
         if (matches[i][0].distance < .75 * matches[i][1].distance) {
             good_matches.push_back(matches[i][0]);
         }
     }
-    printf("%d\n", good_matches.size());
+    printf("%lu\n", good_matches.size());
 
-    Mat M = find_homography(good_matches, training_image_descriptors,
-            query_image_descriptors);
+    Mat M = find_homography(good_matches, training_image_keypoints, query_image_keypoints);
     vector<Point2f> training_points;
     training_points.push_back(training_center);
     vector<Point2f> query_points;
     perspectiveTransform(training_points, query_points, M);
-    printf("%d\n", query_points.size());
+    printf("%f, %f\n", query_points[0].x, query_points[0].y);
 }
 
