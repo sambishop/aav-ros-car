@@ -2,6 +2,15 @@ cmake_minimum_required(VERSION 2.8)
 project(cam_tracker)
 set(CMAKE_BUILD_TYPE Debug)
 find_package(OpenCV REQUIRED)
-add_executable(calibrate_color_filter calibrate_color_filter.cpp)
-target_link_libraries(calibrate_color_filter ${OpenCV_LIBS})
+add_definitions(-D__STDC_CONSTANT_MACROS)
+add_executable(calibrate_color_filter
+    util.h util.cpp
+    calibrate_color_filter.cpp)
+add_executable(track_car
+    track_car.cpp)
+target_link_libraries(calibrate_color_filter
+    ${OpenCV_LIBS}
+    -lavformat)
+target_link_libraries(track_car
+    ${OpenCV_LIBS})
 
