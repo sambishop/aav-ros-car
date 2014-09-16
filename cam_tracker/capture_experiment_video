@@ -9,5 +9,5 @@ USAGE
     exit 1
 fi
 
-exec vlc --input-record-path experiment_video $2/video
+exec vlc --input-record-path experiment_video "$2"
 
