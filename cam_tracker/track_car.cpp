@@ -94,7 +94,7 @@ int main(int argc, char **argv)
             }
         }
         printf(", # of good matches: %3lu", good_matches.size());
-        if (good_matches.size() < 10) { // 4 is minimum
+        if (good_matches.size() < 4) { // 4 is minimum needed by findHomography
             printf("\n");
             imshow(OUTPUT_WINDOW, bgr_frame);
             continue;
