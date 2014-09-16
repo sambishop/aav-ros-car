@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     Point2f training_center =
         find_center(training_image, training_image_keypoints);
 
-    VideoCapture capture = open_stream(argv[2]);
+    VideoCapture capture = open_stream(argv[1]);
     Mat bgr_frame;
     int key = -1;
     static const char *OUTPUT_WINDOW = "Output Window";
