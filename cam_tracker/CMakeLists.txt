@@ -17,9 +17,21 @@ add_executable(track_car2
 target_link_libraries(track_car2
     ${OpenCV_LIBS})
 
-#add_executable(track_car
-#    track_car.cpp
-#    util.h util.cpp)
-#target_link_libraries(track_car
-#    ${OpenCV_LIBS})
+add_executable(track_car
+    track_car.cpp
+    util.h util.cpp)
+target_link_libraries(track_car
+    ${OpenCV_LIBS})
+
+add_executable(track_car3
+    track_car3.cpp
+    util.h util.cpp)
+target_link_libraries(track_car3
+    ${OpenCV_LIBS})
+
+add_executable(measure_noise
+    measure_noise.cpp
+    util.h util.cpp)
+target_link_libraries(measure_noise
+    ${OpenCV_LIBS})
 
