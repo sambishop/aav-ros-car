@@ -90,7 +90,7 @@ int main(int argc, char **argv)
     namedWindow(NOISE_WINDOW, WINDOW_AUTOSIZE);
     namedWindow(OUTPUT_WINDOW, WINDOW_AUTOSIZE);
 
-    while (key == -1 && capture.read(*curr_frame)) {
+    while (key != 'q' && capture.read(*curr_frame)) {
         if (filter) {
             Ptr<Mat> unfiltered_frame = curr_frame;
             curr_frame = new Mat();
