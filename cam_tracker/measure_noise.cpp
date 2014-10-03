@@ -4,7 +4,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/nonfree/features2d.hpp>
 #include <opencv2/opencv.hpp>
 #include <stdio.h>
 #include <vector>
@@ -82,8 +81,8 @@ int main(int argc, char **argv)
     }
 
     VideoCapture capture = open_stream(argv[optind]);
-    Ptr<Mat> prev_frame = NULL;
-    Ptr<Mat> curr_frame = new Mat();
+    Ptr<Mat> prev_frame;
+    Ptr<Mat> curr_frame(new Mat());
     int key = -1;
     static const char *NOISE_WINDOW = "Noise Window";
     static const char *OUTPUT_WINDOW = "Output Window";
@@ -93,7 +92,7 @@ int main(int argc, char **argv)
     while (key != 'q' && capture.read(*curr_frame)) {
         if (filter) {
             Ptr<Mat> unfiltered_frame = curr_frame;
-            curr_frame = new Mat();
+            curr_frame.reset(new Mat());
             bilateralFilter(*unfiltered_frame, *curr_frame, 15, 80, 80);
         }
         if (prev_frame != NULL) {
@@ -120,7 +119,7 @@ int main(int argc, char **argv)
             key = waitKey(1000 / 6);
         }
         prev_frame = curr_frame;
-        curr_frame = new Mat();
+        curr_frame.reset(new Mat());
     }
     fprintf(stderr, "\n");
 }
