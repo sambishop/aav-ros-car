@@ -75,3 +75,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
+/* Example NMEA sentence:
+ * $GPGGA,184430.000,4332.8301,N,11619.8207,W,2,8,1.30,845.0,M,-18.6,M,0000,0000*69
+ */
+
