@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
@@ -10,7 +11,18 @@
  *   - 1Hz (default) messages: GGA, GLL, GSA, GSV, RMC, VTG
  */
 
-int open_device(const char *file)
+struct utc_time {
+    uint8_t hour;
+    uint8_t minute;
+    uint8_t second;
+    uint8_t centisecond;
+};
+
+struct rmc_msg {
+    struct utc_time timestamp;
+};
+
+FILE *open_device(const char *file)
 {
     int fd;
     struct termios settings;
@@ -34,26 +46,23 @@ int open_device(const char *file)
     settings.c_oflag &= ~OPOST;
     tcsetattr(fd, TCSAFLUSH, &settings);
 
-    return fd;
+    return fdopen(fd, "w+");
 }
 
 int main(int argc, char **argv)
 {
-    int fd;
-    char buf[256];
-    ssize_t num_bytes;
-    int i;
+    ssize_t line_len;
+    char *buf = NULL;
+    size_t buf_len = 0;
+    FILE *file;
 
-    fd = open_device("/dev/ttyAMA0");
-    while ((num_bytes = read(fd, buf, 256)) != -1) {
-        write(1, buf, num_bytes);
-        //printf("%d\n", num_bytes);
-        /*
-        for (i = 0; i < num_bytes; ++i) {
-            printf(" %02x", buf[i] & 0xff);
+    file = open_device("/dev/ttyAMA0");
+    while ((line_len = getline(&buf, &buf_len, file)) != -1) {
+        if (strncmp("$GPRMC", buf, 6) == 0) {
+            printf("%s", buf);
+        } else if (strncmp("$GPGSA", buf, 6) == 0) {
+            printf("%s", buf);
         }
-        printf("\n");
-        */
     }
 }
 
