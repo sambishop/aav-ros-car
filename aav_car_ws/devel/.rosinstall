@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/sbishop/aav-ros-car/aav_car_ws/devel/setup.sh
