@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -18,19 +19,19 @@ struct utc_time {
     uint8_t centisecond;
 };
 
-struct rmc_msg {
+struct gga_msg {
     struct utc_time timestamp;
 };
 
-FILE *open_device(const char *file)
+FILE *open_device(const char *path)
 {
     int fd;
     struct termios settings;
 
-    fd = open(file, O_RDWR | O_NOCTTY | O_NDELAY);
+    fd = open(path, O_RDWR | O_NOCTTY | O_NDELAY);
     if (fd == -1) {
         fprintf(stderr, "'%s' attempting to open '%s'\n",
-                strerror(errno), file);
+                strerror(errno), path);
     } else {
         fcntl(fd, F_SETFL, 0);
     }
@@ -42,11 +43,16 @@ FILE *open_device(const char *file)
     settings.c_cflag &= ~(PARENB | PARODD | CSTOPB | CSIZE | CRTSCTS);
     settings.c_cflag |= CS8;
     settings.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-    settings.c_iflag &= ~(PARMRK | INPCK);
+    settings.c_iflag &= ~(PARMRK | INPCK | ICRNL);
     settings.c_oflag &= ~OPOST;
     tcsetattr(fd, TCSAFLUSH, &settings);
 
     return fdopen(fd, "w+");
+}
+
+void request_only_gga_messages(FILE *file)
+{
+    fprintf(file, "$PMTK314,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n");
 }
 
 int main(int argc, char **argv)
@@ -57,12 +63,15 @@ int main(int argc, char **argv)
     FILE *file;
 
     file = open_device("/dev/ttyAMA0");
+    request_only_gga_messages(file);
     while ((line_len = getline(&buf, &buf_len, file)) != -1) {
-        if (strncmp("$GPRMC", buf, 6) == 0) {
+        if (strncmp("$GPGGA", buf, 6) == 0) {
             printf("%s", buf);
-        } else if (strncmp("$GPGSA", buf, 6) == 0) {
-            printf("%s", buf);
+        } else {
+            printf("IGNORED: [%d:%d] %s", line_len, buf_len, buf);
         }
     }
+
+    return 0;
 }
 
