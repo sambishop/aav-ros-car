@@ -6,23 +6,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-/* LS20031 protocol info:
- *   - NMEA 0183 version 3.01
- *   - 9600 bps, 8 data bits, no parity, 1 stop bit (default)
- *   - 1Hz (default) messages: GGA, GLL, GSA, GSV, RMC, VTG
- */
-
-struct utc_time {
-    uint8_t hour;
-    uint8_t minute;
-    uint8_t second;
-    uint8_t centisecond;
-};
-
-struct gga_msg {
-    struct utc_time timestamp;
-};
-
 FILE *open_device(const char *path)
 {
     int fd;
@@ -68,7 +51,7 @@ int main(int argc, char **argv)
         if (strncmp("$GPGGA", buf, 6) == 0) {
             printf("%s", buf);
         } else {
-            printf("IGNORED: [%d:%d] %s", line_len, buf_len, buf);
+            printf("IGNORED: [%zd:%zd] %s", line_len, buf_len, buf);
         }
     }
 
