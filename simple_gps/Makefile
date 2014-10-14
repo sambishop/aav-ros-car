@@ -1,2 +1,2 @@
 simple_gps: main.c
-	gcc -o $@ $^
+	gcc -Wall -o $@ $^
