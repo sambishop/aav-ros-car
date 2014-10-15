@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 {
     init(argc, argv, ROS_PACKAGE_NAME);
     NodeHandle node;
-    Publisher publisher = node.advertise<NavSatFix>("/gps/fix", 10);
+    Publisher publisher = node.advertise<NavSatFix>("fix", 10);
     GpsDriver *driver = openDriver("/dev/ttyAMA0");
     while (ros::ok()) {
         NavSatFix fix = readFix(driver);
