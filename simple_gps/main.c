@@ -38,6 +38,19 @@ void request_only_gga_messages(FILE *file)
     fprintf(file, "$PMTK314,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n");
 }
 
+void bump_speed_to_115200(FILE *file)
+{
+    fprintf(file, "$PMTK251,115200*1F\r\n");
+    fflush(file);
+    int fd = fileno(file);
+    struct termios settings;
+    tcgetattr(fd, &settings);
+    cfsetispeed(&settings, B115200);
+    cfsetospeed(&settings, B115200);
+    tcsetattr(fd, TCSAFLUSH, &settings);
+    fprintf(file, "$PMTK220,100*2F\r\n");
+}
+
 int main(int argc, char **argv)
 {
     ssize_t line_len;
@@ -45,8 +58,9 @@ int main(int argc, char **argv)
     size_t buf_len = 0;
     FILE *file;
 
-    file = open_device("/dev/ttyAMA0");
+    file = open_device("/dev/ttyO1");
     request_only_gga_messages(file);
+    bump_speed_to_115200(file);
     while ((line_len = getline(&buf, &buf_len, file)) != -1) {
         if (strncmp("$GPGGA", buf, 6) == 0) {
             printf("%s", buf);
