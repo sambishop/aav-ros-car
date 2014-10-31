@@ -7,12 +7,12 @@
 #include <string.h>
 #include <unistd.h>
 
-int openDevice(const char *path)
+int openGamepadDevice(const char *gamepadPath)
 {
-    int jsFd = open(path, O_RDONLY | O_NONBLOCK);
+    int jsFd = open(gamepadPath, O_RDONLY | O_NONBLOCK);
     if (jsFd == -1) {
         fprintf(stderr, "\"%s\" attempting to open \"%s\" for reading\n",
-                strerror(errno), path);
+                strerror(errno), gamepadPath);
         exit(1);
     }
     return jsFd;
@@ -28,7 +28,17 @@ void processEvent(js_event event, int *hortizontalAxis, int *verticalAxis)
     *((event.number & 1) ? verticalAxis : hortizontalAxis) = event.value;
 }
 
-void eventLoop(int jsFd, const char *path)
+FILE *openPwmDevice(const char *pwmPath)
+{
+    FILE *file = fopen(pwmPath, "w");
+    if (file == NULL) {
+        fprintf(stderr, "\"%s\" attempting to open \"%s\" for reading", strerror(errno), pwmPath);
+        exit(1);
+    }
+    return file;
+}
+
+void eventLoop(int jsFd, const char *gamepadPath)
 {
     pollfd p;
     p.fd = jsFd;
@@ -47,7 +57,7 @@ void eventLoop(int jsFd, const char *path)
 
         if (errno != EAGAIN) {
             fprintf(stderr, "\"%s\" attempting to read from \"%s\"\n",
-                    strerror(errno), path);
+                    strerror(errno), gamepadPath);
             exit(1);
         }
 
@@ -61,9 +71,13 @@ int main(int argc, char **argv)
         fprintf(stderr, "Usage: gamepad_pwm GAMEPAD_NODE PWM_NODE\n");
         exit(1);
     }
-    const char *path = argv[1];
-    int jsFd = openDevice(path);
-    eventLoop(jsFd, path);
+    const char *gamepadPath = argv[1];
+    const char *pwmPath = argv[2];
+
+    int jsFd = openGamepadDevice(gamepadPath);
+    FILE *pwmFile = openPwmDevice(pwmPath);
+    eventLoop(jsFd, gamepadPath);
+
     return 0;
 }
 
