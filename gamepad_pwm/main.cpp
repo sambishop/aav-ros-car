@@ -32,12 +32,12 @@ bool isAxisEvent(js_event event)
     return ((event.type & ~JS_EVENT_INIT) == JS_EVENT_AXIS) && !(~1U & event.number);
 }
 
-void processEvent(js_event event, int *horizontalAxis, int *verticalAxis)
+void processEvent(js_event event, int *xAxis, int *yAxis)
 {
     if (event.number & 1) {
-        *verticalAxis = -event.value;
+        *yAxis = -event.value;
     } else {
-        *horizontalAxis = event.value;
+        *xAxis = event.value;
     }
 }
 
@@ -77,16 +77,16 @@ void eventLoop(int gamepadFd, FILE *steerFile, FILE *driveFile)
     pollfd p;
     p.fd = gamepadFd;
     p.events = POLLIN;
-    int horizontalAxis = INT_MAX;
-    int verticalAxis = INT_MAX;
+    int xAxis = INT_MAX;
+    int yAxis = INT_MAX;
 
     while (1) {
         js_event event;
-        int previousHorizontal = horizontalAxis;
-        int previousVertical = verticalAxis;
+        int previousX = xAxis;
+        int previousY = yAxis;
         while (read(gamepadFd, &event, sizeof(event)) > 0) {
             if (isAxisEvent(event)) {
-                processEvent(event, &horizontalAxis, &verticalAxis);
+                processEvent(event, &xAxis, &yAxis);
             }
         }
 
@@ -95,13 +95,13 @@ void eventLoop(int gamepadFd, FILE *steerFile, FILE *driveFile)
             exit(1);
         }
 
-        if (horizontalAxis != previousHorizontal) {
-            writePwmDuty(steerFile, calculateNanos(STEER_MIN_MS, STEER_MAX_MS, STEER_NEUTRAL_MS, horizontalAxis));
+        fprintf(stderr, "[%d, %d]\n", xAxis, yAxis);
+        if (xAxis != previousX) {
+            writePwmDuty(steerFile, calculateNanos(STEER_MIN_MS, STEER_MAX_MS, STEER_NEUTRAL_MS, xAxis));
         }
-        if (verticalAxis != previousVertical) {
-            writePwmDuty(driveFile, calculateNanos(DRIVE_MIN_MS, DRIVE_MAX_MS, DRIVE_NEUTRAL_MS, verticalAxis));
+        if (yAxis != previousY) {
+            writePwmDuty(driveFile, calculateNanos(DRIVE_MIN_MS, DRIVE_MAX_MS, DRIVE_NEUTRAL_MS, yAxis));
         }
-        fprintf(stderr, "[%d, %d]\n", horizontalAxis, verticalAxis);
 
         poll(&p, 1, -1);
     }
