@@ -1,0 +1,22 @@
+x0 = 12
+y0 = 2
+A = 0.141902387024
+B = -1.29336040047
+C = 9.92370518981
+vx = 4.557219
+vy = 6.976642
+
+set xrange [-5:15]
+set yrange [-10:20]
+set size square
+set label at x0, y0 "" point pointtype 7 pointsize 1
+set label at vx, vy "" point pointtype 7 pointsize 1
+segment(x) = -9.0 / 4 * x + 27.0 / 2
+perp(x) = 4 / 9.0 * x - 10 / 3
+distance(x) = sqrt((x - x0) ** 2 + (segment(x) - y0) ** 2)
+parabola(x) = A * x ** 2 + B * x + C
+plot segment(x) with lines, \
+    distance(x) with lines, \
+    perp(x) with lines, \
+    parabola(x) with lines
+

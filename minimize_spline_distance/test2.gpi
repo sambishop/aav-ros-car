@@ -1,0 +1,14 @@
+x0 = 12
+y0 = 2
+
+set xrange [-5:15]
+set yrange [-10:20]
+set size square
+set label at x0, y0 "" point pointtype 7 pointsize 1
+s(x) = -9.0 / 4 * x + 27.0 / 2
+d(x) = sqrt((x - x0) ** 2 + (s(x) - y0) ** 2)
+p1(x) = 0.141902387024 * x ** 2 + -1.29336040047 * x + 9.92370518981
+plot s(x) with lines, \
+    d(x) with lines, \
+    p1(x) with lines
+

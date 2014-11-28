@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+from math import sqrt
+
+def segment(x):
+    y = -9.0 / 4 * x + 27.0 / 2
+    print 'segment(%f) = %f' % (x, y)
+    return y
+
+def dist(x0, y0, f, x):
+    y = f(x)
+    d = sqrt((x - x0) ** 2 + (y - y0) ** 2)
+    print 'dist(%f, %f, f, %f) = %f' % (x0, y0, x, d)
+    return d
+
+def hill_climb(x, delta, f):
+    y0 = f(x - delta)
+    y1 = f(x)
+    y2 = f(x + delta)
+    if y0 < y1:
+        delta *= -1
+        prev_y = y0
+    elif y1 < y2:
+        print 'min at %f, 0 iterations' % (x)
+        return x
+    else:
+        prev_y = y2
+    x += delta
+    num_iters = 1
+    while True:
+        y = f(x + delta)
+        if y > prev_y:
+            print 'min at %f, %d iterations' % (x, num_iters)
+            return x
+        prev_y = y
+        x += delta
+        num_iters += 1
+
+x0 = 12
+y0 = 2
+def f(x):
+    return dist(x0, y0, segment, x)
+
+x = hill_climb(1, .001, f)
+
