@@ -2,5 +2,5 @@ set xrange [-2:8]
 set yrange [-2:8]
 set size square
 
-plot '4.2.dat' with dots
+plot 'lines.dat' with dots, 'spline.dat' with dots
 
