@@ -1,16 +1,15 @@
 #!/usr/bin/python
 
 from math import sqrt
+from sys import argv
 
 def segment(x):
-    y = -9.0 / 4 * x + 27.0 / 2
-    print 'segment(%f) = %f' % (x, y)
+    y = dy / dx * x + b
     return y
 
 def dist(x0, y0, f, x):
     y = f(x)
     d = sqrt((x - x0) ** 2 + (y - y0) ** 2)
-    print 'dist(%f, %f, f, %f) = %f' % (x0, y0, x, d)
     return d
 
 def hill_climb(x, delta, f):
@@ -36,10 +35,14 @@ def hill_climb(x, delta, f):
         x += delta
         num_iters += 1
 
-x0 = 12
-y0 = 2
+x0 = float(argv[1])
+y0 = float(argv[2])
+dy = float(argv[3])
+dx = float(argv[4])
+b = float(argv[5])
+
 def f(x):
     return dist(x0, y0, segment, x)
 
-x = hill_climb(1, .001, f)
+x = hill_climb(1, .0001, f)
 
