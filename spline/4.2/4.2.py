@@ -34,8 +34,8 @@ d1s[1].insert(0, (wp[1][1] - wp[0][1]) / 2.0)
 print '''set key off
 
 set xrange [-1:8]
-set yrange [-1:8]
-set size square
+set yrange [-1:6]
+set terminal wxt size 440,345
 
 set parametric
 set trange [0:1]
