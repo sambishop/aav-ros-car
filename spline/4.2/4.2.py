@@ -12,8 +12,8 @@ def normalize(v):
     magnitude = length(v)
     return (v[0] / magnitude, v[1] / magnitude)
 
-d1s = [[(wp[len(wp) - 1][0] - wp[len(wp) - 2][0]) / 2.0],
-    [(wp[len(wp) - 1][1] - wp[len(wp) - 2][1]) / 2.0]]
+d1s = [((wp[len(wp) - 1][0] - wp[len(wp) - 2][0]) / 2.0,
+    (wp[len(wp) - 1][1] - wp[len(wp) - 2][1]) / 2.0)]
 for i in range(len(wp) - 2, 0, -1):
     p0 = wp[i - 1]
     p1 = wp[i]
@@ -25,11 +25,9 @@ for i in range(len(wp) - 2, 0, -1):
     m = m0 / 2.0 if m0 < m1 else m1 / 2.0
     v0 = normalize(v0)
     v1 = normalize(v1)
-    s = ((v0[0] + v1[0]) / 2.0 * m, (v0[1] + v1[1]) / 2.0 * m)
-    d1s[0].insert(0, s[0])
-    d1s[1].insert(0, s[1])
-d1s[0].insert(0, (wp[1][0] - wp[0][0]) / 2.0)
-d1s[1].insert(0, (wp[1][1] - wp[0][1]) / 2.0)
+    d1 = ((v0[0] + v1[0]) / 2.0 * m, (v0[1] + v1[1]) / 2.0 * m)
+    d1s.insert(0, d1)
+d1s.insert(0, ((wp[1][0] - wp[0][0]) / 2.0, (wp[1][1] - wp[0][1]) / 2.0))
 
 print '''set key off
 
@@ -62,8 +60,8 @@ for i in range(0, len(wp) - 1):
     for axis in [0, 1]:
         P0 = p0[axis]
         P5 = p1[axis]
-        s_d1 = d1s[axis][i]
-        e_d1 = d1s[axis][i + 1]
+        s_d1 = d1s[i][axis]
+        e_d1 = d1s[i + 1][axis]
         s_d2 = 0.0
         e_d2 = 0.0
         P1 = 1.0 / 5.0 * s_d1 + P0
