@@ -1,0 +1,105 @@
+#!/usr/bin/python3
+
+import math, re, sys
+from Waypoint import *
+
+def magnitude(vector):
+    return math.sqrt(vector[X] ** 2 + vector[Y] ** 2)
+
+# Create a list of waypoints from the command-line arguments.
+state = X
+waypoints = []
+prev = None
+tokens = [token.strip()
+    for arg in sys.argv[1:]
+        for token in re.split('(,)| ', arg) if token not in [None, '']]
+for token in tokens:
+    if state == X:
+        wp = Waypoint()
+        wp.axis[X].loc = float(token)
+        wp.prev = prev
+        if prev is not None:
+            prev.next = wp
+        prev = wp
+        state = ','
+    elif state == ',':
+        if token != ',':
+            raise ValueError('expected "," token to follow x coordinate')
+        state = Y
+    elif state == Y:
+        wp.axis[Y].loc = float(token)
+        waypoints.append(wp)
+        state = X
+if state != X:
+    raise ValueError('incomplete x,y coordinate pair')
+if len(waypoints) < 2:
+    sys.exit(0)
+
+# Assign first derivatives to each waypoint.
+for wp in reversed(waypoints):
+    if wp.prev is None:
+        # Handle the first waypoint.
+        for a in [X, Y]:
+            wp.axis[a].d1 = (wp.next.axis[a].loc - wp.axis[a].loc) / 2
+    elif wp.next is None:
+        # Handle the last waypoint.
+        for a in [X, Y]:
+            wp.axis[a].d1 = (wp.axis[a].loc - wp.prev.axis[a].loc) / 2
+    else:
+        # Handle the inner waypoints.
+        vs = []
+        for p in [wp, wp.next]:
+            vs.append((p.axis[X].loc - p.prev.axis[X].loc,
+                    p.axis[Y].loc - p.prev.axis[Y].loc))
+        ms = []
+        for v in vs:
+            ms.append(magnitude(v))
+        ns = []
+        for v, m in zip(vs, ms):
+            ns.append((v[X] / m, v[Y] / m))
+        m = min(ms)
+        for a in [X, Y]:
+            wp.axis[a].d1 = (ns[0][a] + ns[1][a]) / 2 * m
+
+# Assign second derivatives to each waypoint.
+for wp in waypoints:
+    if wp.prev is None:
+        # Handle the first waypoint.
+        for a in [X, Y]:
+            B = wp.axis[a].loc
+            C = wp.next.axis[a].loc
+            tB = wp.axis[a].d1
+            tC = wp.next.axis[a].d1
+            wp.axis[a].d2 = -6 * B - 4 * tB - 2 * tC + 6 * C
+    elif wp.next is None:
+        # Handle the last waypoint.
+        for a in [X, Y]:
+            A = wp.prev.axis[a].loc
+            B = wp.axis[a].loc
+            tA = wp.prev.axis[a].d1
+            tB = wp.axis[a].d1
+            wp.axis[a].d2 = 6 * A + 2 * tA + 4 * tB - 6 * B
+    else:
+        # Handle the inner waypoints.
+        vs = []
+        for p in [wp, wp.next]:
+            vs.append((p.axis[X].loc - p.prev.axis[X].loc,
+                    p.axis[Y].loc - p.prev.axis[Y].loc))
+        ms = []
+        for v in vs:
+            ms.append(magnitude(v))
+        m = ms[0] + ms[1]
+        alpha = ms[1] / m
+        beta = ms[0] / m
+        for a in [X, Y]:
+            wp.axis[a].d2 = alpha * (6 * wp.prev.axis[a].loc
+                            + 2 * wp.prev.axis[a].d1
+                            + 4 * wp.axis[a].d1
+                            - 6 * wp.axis[a].loc) \
+                        + beta * (-6 * wp.axis[a].loc
+                            - 4 * wp.axis[a].d1
+                            - 2 * wp.next.axis[a].d1
+                            + 6 * wp.next.axis[a].loc)
+
+print(dump_waypoints(waypoints), end='')
+
