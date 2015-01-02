@@ -92,14 +92,14 @@ for wp in waypoints:
         alpha = ms[1] / m
         beta = ms[0] / m
         for a in [X, Y]:
-            wp.axis[a].d2 = alpha * (6 * wp.prev.axis[a].loc
-                            + 2 * wp.prev.axis[a].d1
-                            + 4 * wp.axis[a].d1
-                            - 6 * wp.axis[a].loc) \
-                        + beta * (-6 * wp.axis[a].loc
-                            - 4 * wp.axis[a].d1
-                            - 2 * wp.next.axis[a].d1
-                            + 6 * wp.next.axis[a].loc)
+            A = wp.prev.axis[a].loc
+            B = wp.axis[a].loc
+            C = wp.next.axis[a].loc
+            tA = wp.prev.axis[a].d1
+            tB = wp.axis[a].d1
+            tC = wp.next.axis[a].d1
+            wp.axis[a].d2 = alpha * (6 * A + 2 * tA + 4 * tB - 6 * B) \
+                        + beta * (-6 * B - 4 * tB - 2 * tC + 6 * C)
 
 print(dump_waypoints(waypoints), end='')
 
