@@ -36,7 +36,7 @@ if len(waypoints) < 2:
     sys.exit(0)
 
 # Assign first derivatives to each waypoint.
-for wp in reversed(waypoints):
+for wp in waypoints:
     if wp.prev is None:
         # Handle the first waypoint.
         for a in [X, Y]:
