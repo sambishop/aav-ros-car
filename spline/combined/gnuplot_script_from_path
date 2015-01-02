@@ -1,0 +1,86 @@
+#!/usr/bin/python3
+
+import sys
+from Segment import *
+from Waypoint import *
+
+def plot(f1=['plot']):
+    f2 = f1[0]
+    f1[0] = 'replot'
+    return f2
+
+with open(sys.argv[1], 'r') as f:
+    s = f.read().strip()
+waypoints = parse_waypoints(s)
+
+min_X = min([ wp.axis[X].loc for wp in waypoints ]) - 1
+max_X = max([ wp.axis[X].loc for wp in waypoints ]) + 1
+min_Y = min([ wp.axis[Y].loc for wp in waypoints ]) - 1
+max_Y = max([ wp.axis[Y].loc for wp in waypoints ]) + 1
+
+print('''set key off
+
+set xrange [{0}:{1}]
+set yrange [{2}:{3}]
+set size square
+
+set parametric
+set trange [0:1]
+f(a, b, t) = a + t * (b - a)
+S3(P0, P1, P2, P3, t) = (1.0 - t) ** 3 * P0 \\
+        + 3.0 * t * (1.0 - t) ** 2 * P1 \\
+        + 3.0 * t ** 2 * (1.0 - t) * P2 \\
+        + t ** 3 * P3
+S5(P0, P1, P2, P3, P4, P5, t) = (1.0 - t) ** 5 * P0 \\
+        + 5.0 * (1.0 - t) ** 4 * t * P1 \\
+        + 10.0 * (1.0 - t) ** 3 * t ** 2 * P2 \\
+        + 10.0 * (1.0 - t) ** 2 * t ** 3 * P3 \\
+        + 5.0 * (1.0 - t) * t ** 4 * P4 \\
+        + t ** 5 * P5
+'''.format(min_X, max_X, min_Y, max_Y))
+
+# Plot straight lines that connect the waypoints.
+for wp0 in waypoints[:-1]:
+    wp1 = wp0.next
+    print(plot(),
+        'f({0}, {1}, t) lt 4,'.format(wp0.axis[X].loc, wp1.axis[X].loc),
+        'f({0}, {1}, t) lt 4'.format(wp0.axis[Y].loc, wp1.axis[Y].loc))
+
+# Plot a cubic spline that connects the waypoints.
+cubic_spline = cubic_spline_from_waypoints(waypoints)
+for segment in cubic_spline:
+    print(plot(), ', '.join([
+            'S3({0}, {1}, {2}, {3}, t) lt 1'.format(
+                segment[X].P0,
+                segment[X].P1,
+                segment[X].P2,
+                segment[X].P3
+                ),
+            'S3({0}, {1}, {2}, {3}, t) lt 1'.format(
+                segment[Y].P0,
+                segment[Y].P1,
+                segment[Y].P2,
+                segment[Y].P3
+                )]))
+
+# Plot a quintic spline that connects the waypoints.
+quintic_spline = quintic_spline_from_waypoints(waypoints)
+for segment in quintic_spline:
+    print(plot(), ', '.join([
+            'S5({0}, {1}, {2}, {3}, {4}, {5}, t) lt -1'.format(
+                segment[X].P0,
+                segment[X].P1,
+                segment[X].P2,
+                segment[X].P3,
+                segment[X].P4,
+                segment[X].P5
+                ),
+            'S5({0}, {1}, {2}, {3}, {4}, {5}, t) lt -1'.format(
+                segment[Y].P0,
+                segment[Y].P1,
+                segment[Y].P2,
+                segment[Y].P3,
+                segment[Y].P4,
+                segment[Y].P5
+                )]))
+

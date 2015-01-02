@@ -33,6 +33,7 @@ def dump_waypoints(waypoints):
 
 def parse_waypoints(s):
     waypoints = []
+    prev = None
     for line in s.split('\n'):
         if line.startswith('#') or line.strip() == '':
             continue
@@ -46,6 +47,10 @@ def parse_waypoints(s):
         wp.axis[Y].loc = tokens[3]
         wp.axis[Y].d1 = tokens[4]
         wp.axis[Y].d2 = tokens[5]
+        wp.prev = prev
+        if prev is not None:
+            prev.next = wp
         waypoints.append(wp)
+        prev = wp
     return waypoints
 
