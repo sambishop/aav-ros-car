@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot name="props" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- The dimensions of the car body itself. -->
+  <xacro:property name="chassis_length" value=".5334"/>
+  <xacro:property name="chassis_width" value=".28575"/>
+  <xacro:property name="chassis_height" value=".1397"/>
+
+  <!-- The distance between the ground to the bottom of the chassis. -->
+  <xacro:property name="ground_clearance" value=".05715"/>
+
+  <!-- -->
+  <xacro:property name="chassis_offset" value=".0254"/>
+
+  <!-- The center-to-center distance between the front wheels.  (It is assumed
+       that this is the same as the distance between the back wheels.) -->
+  <xacro:property name="wheelbase_width" value=".2413"/>
+
+  <!-- The distance between the front and back axes. -->
+  <xacro:property name="wheelbase_length" value=".3302"/>
+
+  <!-- The distance from the center of a wheel to the outside of its tire. -->
+  <xacro:property name="tire_radius" value=".0508"/>
+
+  <!-- The distance from the inside to the outside of a tire.  Basically, the
+       width of the tread. -->
+  <xacro:property name="tire_width" value=".047625"/>
+</robot>
+

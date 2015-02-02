@@ -5,7 +5,7 @@
   <arg name="enable_gps" default="false"/>
   -->
 
-  <arg name="model" default="$(find aav_simple_description)/urdf/car.xacro"/>
+  <arg name="model" default="$(find aav_simple_description)/urdf/car.urdf.xacro"/>
   
   <param name="robot_description"
     command="$(find xacro)/xacro.py '$(arg model)'"/>

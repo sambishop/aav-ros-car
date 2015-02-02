@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot name="car" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Axes are X (forward), Y (left), and Z (up).  This complies with the
+       right-hand rule.  Lengths are measured in meters and masses in
+       kilograms. -->
+
+  <xacro:include filename="$(find aav_simple_description)/urdf/props.urdf.xacro"/>
+  <xacro:include filename="$(find aav_simple_description)/urdf/wheel.urdf.xacro"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${ground_clearance + chassis_height / 2}"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <xacro:front_wheel name="left" x="-1"/>
+  <xacro:front_wheel name="right" x="1"/>
+  <xacro:back_wheel name="left" x="-1"/>
+  <xacro:back_wheel name="right" x="1"/>
+</robot>
+
