@@ -17,6 +17,6 @@
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
   <node name="spawn_aav_model" pkg="gazebo_ros" type="spawn_model" 
-    args="$(optenv ROBOT_INITIAL_POSE) -unpause -urdf -param robot_description -model car"/>
+    args="$(optenv ROBOT_INITIAL_POSE) -urdf -param robot_description -model car"/>
 </launch>
 
