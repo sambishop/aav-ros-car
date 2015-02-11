@@ -22,20 +22,25 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
         <mass value=".5"/>
-        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        <inertia ixx=".02467" ixy="0" ixz="0" iyy=".02467" iyz="0" izz=".04411"/>
       </inertial>
     </link>
 
     <gazebo reference="front_${name}_wheel">
       <material>Gazebo/Black</material>
       <turnGravityOff>false</turnGravityOff>
+      <mu1 value="1"/>
+      <mu2 value="1"/>
+      <kp value="10000000"/>
+      <kd value="1"/>
+      <fdir1 value="1 0 0"/>
     </gazebo>
 
     <link name="front_${name}_link">
       <inertial>
         <origin xyz="0 0 0"/>
-        <mass value="1"/>
-        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        <mass value=".6"/>
+        <inertia ixx=".001" ixy="0" ixz="0" iyy=".001" iyz="0" izz=".001"/>
       </inertial>
     </link>
 
@@ -79,12 +84,18 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
         <mass value=".5"/>
-        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        <inertia ixx=".02467" ixy="0" ixz="0" iyy=".02467" iyz="0" izz=".04411"/>
       </inertial>
     </link>
 
     <gazebo reference="back_${name}_wheel">
       <material>Gazebo/Black</material>
+      <turnGravityOff>false</turnGravityOff>
+      <mu1 value="1.5"/>
+      <mu2 value="1.5"/>
+      <kp value="1000000"/>
+      <kd value="100"/>
+      <fdir1 value="1 0 0"/>
     </gazebo>
 
     <joint name="back_${name}_joint" type="continuous">

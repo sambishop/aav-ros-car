@@ -6,11 +6,11 @@
 namespace aav_gazebo_plugins {
   class PwmSteer : public gazebo::ModelPlugin {
     public:
-      void Load(gazebo::physics::ModelPtr parent, sdf::ElementPtr sdf);
+      void Load(gazebo::physics::ModelPtr model, sdf::ElementPtr sdf);
 
     private:
       void OnUpdate(const gazebo::common::UpdateInfo &);
-      gazebo::physics::ModelPtr parentModel;
+      gazebo::physics::ModelPtr model;
       sdf::ElementPtr sdfElement;
       gazebo::event::ConnectionPtr updateConnection;
   };

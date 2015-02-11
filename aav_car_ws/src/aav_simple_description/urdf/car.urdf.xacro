@@ -32,7 +32,8 @@
     <inertial>
       <origin xyz="0 0 ${ground_clearance + chassis_height / 2}"/>
       <mass value="2.26796"/>
-      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+      <inertia ixx=".0065806093" ixy="0" ixz="0"
+        iyy=".0154882693" iyz="0" izz=".0220224112"/>
     </inertial>
   </link>
 

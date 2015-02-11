@@ -13,8 +13,10 @@
 
   <include file="$(find aav_simple_description)/launch/description.launch"/>
 
+  <!--
   <param name="use_gui" value="true"/>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  -->
 
   <node name="spawn_aav_model" pkg="gazebo_ros" type="spawn_model" 
     args="$(optenv ROBOT_INITIAL_POSE) -urdf -param robot_description -model car"/>
