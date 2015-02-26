@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="namespace" default="ackermann_vehicle"/>
+  <group ns="$(arg namespace)">
+    <arg name="model" default="$(find aav_description)/urdf/car.urdf.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(arg model)'"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+      <param name="publish_frequency" value="30"/>
+    </node>
+  </group>
+</launch>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>aav_description</name>
+  <version>0.0.3</version>
+  <description>a URDF description of the AAV car</description>
+
+  <maintainer email="samuel.j.bishop@gmail.com">Sam Bishop</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>xacro</run_depend>
+
+  <export>
+    <architecture_independent/>
+  </export>
+</package>

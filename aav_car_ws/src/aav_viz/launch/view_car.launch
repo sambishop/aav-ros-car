@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <include file="$(find aav_simple_description)/launch/description.launch"/>
+  <include file="$(find aav_description)/launch/description.launch"/>
 
+  <!-- TODO These joint_state_publisher lines should go in the Gazebo node. -->
   <param name="use_gui" value="true"/>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 

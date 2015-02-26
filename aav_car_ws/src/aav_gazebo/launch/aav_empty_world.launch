@@ -11,7 +11,7 @@
     <arg name="debug" value="false"/>
   </include>
 
-  <include file="$(find aav_simple_description)/launch/description.launch"/>
+  <include file="$(find aav_description)/launch/description.launch"/>
 
   <!--
   <param name="use_gui" value="true"/>
