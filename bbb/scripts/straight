@@ -1,0 +1,3 @@
+
+echo 1450000 > /sys/class/pwm/pwm3/duty_ns
+

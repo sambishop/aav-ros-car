@@ -1,0 +1,8 @@
+
+s=$(($1 * 1000))
+e=$(($2 * 1000))
+for n in $(seq $s -100000 $e); do
+	echo $n
+	echo $n > /sys/class/pwm/pwm3/duty_ns
+done
+

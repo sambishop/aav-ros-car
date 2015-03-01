@@ -1,0 +1,11 @@
+echo cape-universaln > /sys/devices/bone_capemgr.9/slots
+config-pin P9.14 pwm
+config-pin P8.13 pwm
+echo 3 > /sys/class/pwm/export
+echo 6 > /sys/class/pwm/export
+echo 1450000 > /sys/class/pwm/pwm3/duty_ns
+echo 16666666 > /sys/class/pwm/pwm3/period_ns
+echo 1500000 > /sys/class/pwm/pwm6/duty_ns
+echo 16666666 > /sys/class/pwm/pwm6/period_ns
+echo 1 > /sys/class/pwm/pwm3/run
+echo 1 > /sys/class/pwm/pwm6/run
