@@ -6,11 +6,13 @@
     <arg name="namespace" value="$(arg namespace)"/>
   </include>
 
+  <!--
   <node name="joint_state_publisher" pkg="joint_state_publisher"
         type="joint_state_publisher" ns="$(arg namespace)">
     <param name="rate" value="30"/>
     <param name="use_gui" value="true"/>
   </node>
+  -->
 
   <node name="rviz" pkg="rviz" type="rviz" ns="$(arg namespace)"
         args="-d $(find aav_viz)/rviz/car.rviz" required="true"/>
