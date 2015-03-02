@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>aav_viz</name>
+  <name>aav_rviz</name>
   <version>0.0.1</version>
   <description>rviz package for the AAV vehicle</description>
 

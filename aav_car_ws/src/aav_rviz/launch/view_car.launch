@@ -15,6 +15,6 @@
   -->
 
   <node name="rviz" pkg="rviz" type="rviz" ns="$(arg namespace)"
-        args="-d $(find aav_viz)/rviz/car.rviz" required="true"/>
+        args="-d $(find aav_rviz)/rviz/car.rviz" required="true"/>
 </launch>
 
