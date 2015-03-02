@@ -12,7 +12,7 @@
     <param name="base_link_frame" value="base_link"/>
     <param name="world_frame" value="odom"/>
 
-    <param name="imu0" value="imu/data_compass"/>
+    <param name="imu0" value="imu/data"/>
     <rosparam param="imu0_config">[false, false, false,
                                    true,  true,  true,
                                    false, false, false,
@@ -33,13 +33,6 @@
   <node pkg="robot_localization" type="navsat_transform_node"
       name="navsat_transform_node" ns="ackermann_vehicle" respawn="true" output="screen">
     <param name="magnetic_declination_radians" value="0"/>
-
-    <remap from="imu/data" to="imu/data_compass" />
-    <remap from="gps/fix" to="navsat/fix" />
-
-    <!-- Placeholders for output remapping.
-    <remap from="/odometry/gps" to="" />
-    -->
   </node>
 </launch>
 

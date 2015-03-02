@@ -420,7 +420,7 @@ limitations under the License.
       <robotNamespace>/</robotNamespace>
       <updateRate>50.0</updateRate>
       <bodyName>base_link</bodyName>
-      <topicName>imu/data_compass</topicName>
+      <topicName>imu/data</topicName>
       <accelDrift>0.005 0.005 0.005</accelDrift>
       <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
       <rateDrift>0.005 0.005 0.005 </rateDrift>
@@ -436,7 +436,7 @@ limitations under the License.
       <robotNamespace>/</robotNamespace>
       <bodyName>base_link</bodyName>
       <frameId>base_link</frameId>
-      <topicName>navsat/fix</topicName>
+      <topicName>gps/fix</topicName>
       <velocityTopicName>navsat/vel</velocityTopicName>
       <referenceLatitude>43.547165</referenceLatitude>
       <referenceLongitude>-116.330745</referenceLongitude>
