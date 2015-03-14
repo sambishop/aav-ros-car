@@ -1,0 +1,19 @@
+<package>
+  <name>aav_msgs</name>
+  <version>0.0.1</version>
+  <description>ROS messages for the AAV car</description>
+  <maintainer email="samuel.j.bishop@gmail.com">Sam Bishop</maintainer>
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
+  
+  <export>
+    <architecture_independent/>
+  </export>
+</package>
