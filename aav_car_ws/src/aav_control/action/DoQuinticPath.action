@@ -1,12 +1,7 @@
-float32 a
+aav_msgs/QuinticPath path
 ---
-float32 b
+# TODO
+float32 percent_complete
 ---
-float32 c
-#aav_msgs/QuinticPath path
-#---
-## TODO
-#float32 percent_complete
-#---
-## TODO
-#float32 percent_complete
+# TODO
+float32 percent_complete

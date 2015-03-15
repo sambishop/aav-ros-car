@@ -1,6 +1,6 @@
 #include "aav_control/DoQuinticPathAction.h"
 #include "ackermann_msgs/AckermannDriveStamped.h"
-#include "actionlib/client/simple_action_client.h"
+#include "actionlib/server/simple_action_server.h"
 #include "ros/ros.h"
 #include "nav_msgs/Odometry.h"
 
@@ -9,9 +9,7 @@ using namespace ackermann_msgs;
 using namespace actionlib;
 using namespace ros;
 
-typedef SimpleActionClient<DoQuinticPathAction> Client;
-
-void callback(const nav_msgs::Odometry::ConstPtr& msg)
+void callback(const DoQuinticPathGoalConstPtr &goal)
 {
 }
 
@@ -23,6 +21,13 @@ int main(int argc, char **argv)
   Publisher pub = node.advertise<AckermannDriveStamped>("quintic_path", 1000);
   Subscriber sub = node.subscribe("odometry/filtered", 1000, callback);
 
+  SimpleActionServer<DoQuinticPathAction> server(
+      node,
+      "aav_control", 
+      boost::bind(callback, _1),
+      false
+    );
+  server.start();
   return 0;
 }
 
