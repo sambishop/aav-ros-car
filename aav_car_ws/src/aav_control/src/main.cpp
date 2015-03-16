@@ -11,6 +11,7 @@ using namespace ros;
 
 void callback(const DoQuinticPathGoalConstPtr &goal)
 {
+  fprintf(stderr, "# of points: %u\n", goal->path.segments.size());
 }
 
 int main(int argc, char **argv)
