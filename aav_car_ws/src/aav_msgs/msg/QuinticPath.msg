@@ -1,2 +1,2 @@
 Header header
-QuinticSegment[] segments
+QuinticPathSegment[] segments

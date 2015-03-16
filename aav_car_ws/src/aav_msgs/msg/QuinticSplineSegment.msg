@@ -1,5 +1,3 @@
-float64 arc_length
-PlanningPoint[] points
 float64 P0
 float64 P1
 float64 P2

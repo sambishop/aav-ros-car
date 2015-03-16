@@ -12,9 +12,10 @@ add_message_files(
   DIRECTORY
     msg
   FILES
-    QuinticPath.msg
-    QuinticSegment.msg
     PlanningPoint.msg
+    QuinticPath.msg
+    QuinticPathSegment.msg
+    QuinticSplineSegment.msg
 )
 
 generate_messages(

@@ -1,0 +1,4 @@
+float64 arc_length
+PlanningPoint[] points
+QuinticSplineSegment x_segment
+QuinticSplineSegment y_segment

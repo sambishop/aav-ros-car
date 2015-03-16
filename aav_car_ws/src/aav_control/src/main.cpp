@@ -28,6 +28,7 @@ int main(int argc, char **argv)
       false
     );
   server.start();
+  spin();
   return 0;
 }
 

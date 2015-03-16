@@ -1,0 +1,20 @@
+set key off
+
+set xrange [-1:8]
+set yrange [-1:6]
+set terminal wxt size 440,345
+
+set parametric
+set trange [0:1]
+
+S(P0, P1, P2, P3, P4, P5, t) = (1.0 - t) ** 5 * P0 \
+        + 5.0 * (1.0 - t) ** 4 * t * P1 \
+        + 10.0 * (1.0 - t) ** 3 * t ** 2 * P2 \
+        + 10.0 * (1.0 - t) ** 2 * t ** 3 * P3 \
+        + 5.0 * (1.0 - t) * t ** 4 * P4 \
+        + t ** 5 * P5
+#f(a, b, t) = a + t * (b - a)
+
+#plot f(0, 0, t) lt 4, f(0, 5, t) lt 4
+plot S(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, t) lt -1, S(0.0, 0.5, 1.0, 4.0, 4.5, 5.0, t) lt -1 
+
