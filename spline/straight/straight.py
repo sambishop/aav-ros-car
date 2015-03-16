@@ -3,7 +3,7 @@
 from math import sqrt
 from sys import stderr
 
-wp = [(0.0, 0.0), (0.0, 5.0)]
+wp = [(0.0, 0.0), (0.0, 1.0)]
 
 def plot(f1=['plot']):
     f2 = f1[0]
