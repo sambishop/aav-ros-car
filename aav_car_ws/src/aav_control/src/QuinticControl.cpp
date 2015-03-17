@@ -3,9 +3,19 @@
 #include "QuinticControl.h"
 
 using namespace aav_control;
+using namespace nav_msgs;
 
-void QuinticControl::callback(const DoQuinticPathGoalConstPtr &goal)
+void QuinticControl::updateGoal(const DoQuinticPathGoalConstPtr &goal)
 { 
-  fprintf(stderr, "# of points: %u\n", goal->path.segments.size());
+  this->goal = goal;
+}
+
+void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry)
+{
+  if (!goal) {
+    return;
+  }
+
+  fprintf(stderr, "%s\n", odometry->child_frame_id.c_str());
 }
 
