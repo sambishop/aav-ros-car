@@ -37,9 +37,11 @@ catkin_package(
 add_executable(
   aav_control
     src/main.cpp
+    src/QuinticControl.cpp
 )
 
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
