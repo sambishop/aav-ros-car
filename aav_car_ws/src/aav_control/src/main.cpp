@@ -19,7 +19,7 @@ int main(int argc, char **argv)
   init(argc, argv, "aav_control");
   NodeHandle node;
 
-  Publisher pub = node.advertise<AckermannDriveStamped>("quintic_path", 1000);
+  Publisher pub = node.advertise<AckermannDriveStamped>("ackermann_cmd", 1000);
   Subscriber sub = node.subscribe("odometry/filtered", 1000, callback);
 
   SimpleActionServer<DoQuinticPathAction> server(
