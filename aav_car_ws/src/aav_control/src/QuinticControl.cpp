@@ -15,14 +15,21 @@ void QuinticControl::updateGoal(const DoQuinticPathGoalConstPtr &goal) {
   goalMutex.unlock();
 }
 
-void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
+const QuinticPath *QuinticControl::getPathFromGoal() {
+  const QuinticPath *path = NULL;
   goalMutex.lock();
-  if (!goal) {
-    goalMutex.unlock();
+  if (goal) {
+    path = &goal->path;
+  }
+  goalMutex.unlock();
+  return path;
+}
+
+void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
+  const QuinticPath *path = getPathFromGoal();
+  if (path == NULL || path->segments.empty()) {
     return;
   }
-  const QuinticPath *path = &goal->path;
-  goalMutex.unlock();
 
   const Point *position = &odometry->pose.pose.position;
 }

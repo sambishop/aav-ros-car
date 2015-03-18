@@ -13,6 +13,7 @@ namespace aav_control {
     void updateOdometry(const nav_msgs::Odometry::ConstPtr &odometry);
 
   private:
+    const aav_msgs::QuinticPath *getPathFromGoal();
     boost::mutex goalMutex;
     DoQuinticPathGoalConstPtr goal;
   };
