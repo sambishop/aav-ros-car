@@ -9,15 +9,13 @@ using namespace aav_msgs;
 using namespace geometry_msgs;
 using namespace nav_msgs;
 
-void QuinticControl::updateGoal(const DoQuinticPathGoalConstPtr &goal)
-{ 
+void QuinticControl::updateGoal(const DoQuinticPathGoalConstPtr &goal) {
   goalMutex.lock();
   this->goal = goal;
   goalMutex.unlock();
 }
 
-void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry)
-{
+void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
   goalMutex.lock();
   if (!goal) {
     goalMutex.unlock();

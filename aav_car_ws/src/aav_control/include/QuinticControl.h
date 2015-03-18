@@ -7,8 +7,7 @@
 #include "nav_msgs/Odometry.h"
 
 namespace aav_control {
-
-class QuinticControl {
+  class QuinticControl {
   public:
     void updateGoal(const aav_control::DoQuinticPathGoalConstPtr &goal);
     void updateOdometry(const nav_msgs::Odometry::ConstPtr &odometry);
@@ -16,9 +15,8 @@ class QuinticControl {
   private:
     boost::mutex goalMutex;
     DoQuinticPathGoalConstPtr goal;
-};
-
-} // namespace aav_control
+  };
+}
 
 #endif
 
