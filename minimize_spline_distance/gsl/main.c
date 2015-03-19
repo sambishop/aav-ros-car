@@ -23,8 +23,7 @@ int main(void) {
   s = gsl_min_fminimizer_alloc(T);
   gsl_min_fminimizer_set(s, &F, m, a, b);
 
-  printf("using %s method\n",
-          gsl_min_fminimizer_name(s));
+  printf("using %s method\n", gsl_min_fminimizer_name(s));
 
   printf("%5s [%9s, %9s] %9s %10s %9s\n",
           "iter", "lower", "upper", "min",
@@ -42,8 +41,7 @@ int main(void) {
     a = gsl_min_fminimizer_x_lower(s);
     b = gsl_min_fminimizer_x_upper(s);
 
-    status 
-      = gsl_min_test_interval(a, b, 0.001, 0.0);
+    status = gsl_min_test_interval(a, b, 0.001, 0.0);
 
     if (status == GSL_SUCCESS)
       printf("Converged:\n");
