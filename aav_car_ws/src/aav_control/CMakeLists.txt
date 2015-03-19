@@ -7,10 +7,15 @@ find_package(
     ackermann_msgs
     actionlib
     actionlib_msgs
+    cmake_modules
     genmsg
     nav_msgs
     roscpp
     roslaunch
+)
+
+find_package(
+  GSL REQUIRED
 )
 
 add_action_files(
@@ -48,6 +53,7 @@ include_directories(
 target_link_libraries(
   aav_control
   ${catkin_LIBRARIES}
+  ${GSL_LIBRARIES}
 )
 
 roslaunch_add_file_check(launch)
