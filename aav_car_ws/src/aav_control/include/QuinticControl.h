@@ -9,6 +9,7 @@
 namespace aav_control {
   class QuinticControl {
   public:
+    QuinticControl();
     void updateGoal(const aav_control::DoQuinticPathGoalConstPtr &goal);
     void updateOdometry(const nav_msgs::Odometry::ConstPtr &odometry);
 

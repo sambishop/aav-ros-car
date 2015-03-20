@@ -41,8 +41,9 @@ catkin_package(
 
 add_executable(
   aav_control
-    src/main.cpp
+    src/DistanceCalculator.cpp
     src/QuinticControl.cpp
+    src/main.cpp
 )
 
 include_directories(
