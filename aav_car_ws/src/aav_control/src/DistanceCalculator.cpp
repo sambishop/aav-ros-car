@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 
 #include "DistanceCalculator.h"
@@ -12,7 +13,7 @@ DistanceCalculator::DistanceCalculator(
   this->segment = segment;
   this->point = point;
   this->minimizer = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
-  this->func.function = &DistanceCalculator::calculatePoint;
+  this->func.function = &DistanceCalculator::calculateDistanceMeasure;
   this->func.params = this;
 }
 
@@ -20,7 +21,7 @@ DistanceCalculator::~DistanceCalculator() {
   gsl_min_fminimizer_free(this->minimizer);
 }
 
-double DistanceCalculator::calculate() {
+double DistanceCalculator::findT() {
   gsl_min_fminimizer_set(minimizer, &func, .5, -1, 2);
   for (int i = 0; i < 10; ++i) {
     gsl_min_fminimizer_iterate(minimizer);
@@ -28,16 +29,18 @@ double DistanceCalculator::calculate() {
   return gsl_min_fminimizer_minimum(minimizer);
 }
 
-double DistanceCalculator::calculatePoint(double t, void *that) {
-  fprintf(stderr, "calculatePoint(t=%f, that)\n", t);
+double DistanceCalculator::calculateCrossTrackError(double t) {
+  double distanceMeasure = calculateDistanceMeasure(t, this);
+  return sqrt(distanceMeasure);
+}
+
+double DistanceCalculator::calculateDistanceMeasure(double t, void *that) {
   DistanceCalculator *c = static_cast<DistanceCalculator *>(that);
   double x = c->calculateSegment(t, &c->segment->x_segment);
   double y = c->calculateSegment(t, &c->segment->y_segment);
   double x_delta = x - c->point->x;
   double y_delta = y - c->point->y;
   double val = x_delta * x_delta + y_delta * y_delta;
-  fprintf(stderr, "[%f, %f] -> [%f, %f], delta=[%f, %f], val=%f\n",
-      c->point->x, c->point->y, x, y, x_delta, y_delta, val);
   return val;
 }
 

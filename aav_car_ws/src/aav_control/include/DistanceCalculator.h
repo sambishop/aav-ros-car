@@ -14,10 +14,11 @@ public:
       const geometry_msgs::Point *point
     );
   ~DistanceCalculator();
-  double calculate();
+  double findT();
+  double calculateCrossTrackError(double t);
 
 private:
-  static double calculatePoint(double t, void *);
+  static double calculateDistanceMeasure(double t, void *);
   double calculateSegment(
       double t,
       const aav_msgs::QuinticSplineSegment *segment

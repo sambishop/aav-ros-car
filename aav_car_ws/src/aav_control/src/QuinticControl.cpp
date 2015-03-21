@@ -11,9 +11,11 @@ using namespace aav_control;
 using namespace aav_msgs;
 using namespace geometry_msgs;
 using namespace nav_msgs;
+using namespace ros;
 using namespace std;
 
-QuinticControl::QuinticControl() {
+QuinticControl::QuinticControl(Publisher *pub) {
+  this->pub = pub;
   gsl_set_error_handler_off();
 }
 
@@ -40,8 +42,20 @@ void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
   }
 
   const Point *position = &odometry->pose.pose.position;
-  DistanceCalculator calculator(&path->segments[0], position);
-  double t = calculator.calculate();
-  fprintf(stderr, "t = %f\n", t);
+  unsigned int i;
+  double t;
+  double crossTrackError;
+  for (i = 0; i < path->segments.size(); ++i) {
+    DistanceCalculator calculator(&path->segments[i], position);
+    t = calculator.findT();
+    if (t <= 1.0) {
+      crossTrackError = calculator.calculateCrossTrackError(t);
+      break;
+    }
+  }
+  if (i == path->segments.size()) {
+    return;
+  }
+  fprintf(stderr, "t=%f, crossTrackError=%f\n", t, crossTrackError);
 }
 

@@ -5,15 +5,17 @@
 
 #include "aav_control/DoQuinticPathAction.h"
 #include "nav_msgs/Odometry.h"
+#include "ros/ros.h"
 
 namespace aav_control {
   class QuinticControl {
   public:
-    QuinticControl();
+    QuinticControl(ros::Publisher *pub);
     void updateGoal(const aav_control::DoQuinticPathGoalConstPtr &goal);
     void updateOdometry(const nav_msgs::Odometry::ConstPtr &odometry);
 
   private:
+    ros::Publisher *pub;
     const aav_msgs::QuinticPath *getPathFromGoal();
     boost::mutex goalMutex;
     DoQuinticPathGoalConstPtr goal;
