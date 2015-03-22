@@ -32,6 +32,11 @@ add_executable(
     src/main.cpp
 )
 
+add_dependencies(
+  aav_control
+    ${aav_msgs_EXPORTED_TARGETS}
+)
+
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
