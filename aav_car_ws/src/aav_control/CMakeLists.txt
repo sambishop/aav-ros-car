@@ -6,9 +6,7 @@ find_package(
     aav_msgs
     ackermann_msgs
     actionlib
-    actionlib_msgs
     cmake_modules
-    genmsg
     nav_msgs
     roscpp
     roslaunch
@@ -18,24 +16,10 @@ find_package(
   GSL REQUIRED
 )
 
-add_action_files(
-  DIRECTORY
-    action
-  FILES
-    DoQuinticPath.action
-)
-
-generate_messages(
-  DEPENDENCIES
-    aav_msgs
-    actionlib_msgs
-)
-
 catkin_package(
   CATKIN_DEPENDS
     aav_msgs
     ackermann_msgs
-    actionlib_msgs
     roscpp
 )
 
