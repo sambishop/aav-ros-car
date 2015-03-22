@@ -5,6 +5,7 @@
 
 #include "aav_msgs/DoQuinticPathAction.h"
 #include "nav_msgs/Odometry.h"
+#include "Pid.h"
 #include "ros/ros.h"
 
 namespace aav_control {
@@ -19,6 +20,7 @@ namespace aav_control {
     const aav_msgs::QuinticPath *getPathFromGoal();
     boost::mutex goalMutex;
     aav_msgs::DoQuinticPathGoalConstPtr goal;
+    Pid pid;
   };
 }
 

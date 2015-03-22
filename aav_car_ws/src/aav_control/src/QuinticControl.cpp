@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "aav_msgs/QuinticPath.h"
+#include "ackermann_msgs/AckermannDrive.h"
 #include "DistanceCalculator.h"
 #include "geometry_msgs/Point.h"
 #include "QuinticControl.h"
@@ -14,7 +15,8 @@ using namespace nav_msgs;
 using namespace ros;
 using namespace std;
 
-QuinticControl::QuinticControl(Publisher *pub) {
+QuinticControl::QuinticControl(Publisher *pub) : pid(0, .1, .1, .1, -4, 4)
+{
   this->pub = pub;
   gsl_set_error_handler_off();
 }
