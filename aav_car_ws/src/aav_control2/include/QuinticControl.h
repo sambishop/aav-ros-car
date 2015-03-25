@@ -7,7 +7,6 @@
 namespace aav_control {
   class QuinticControl {
   public:
-    QuinticControl();
     void updateOdometry(const nav_msgs::Odometry::ConstPtr &odometry);
   };
 }
