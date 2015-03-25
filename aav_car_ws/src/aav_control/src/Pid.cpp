@@ -15,12 +15,12 @@ double Pid::update(double value) {
 
   double pValue = pGain * error;
 
-  double dValue = dGain * (error - dState);
-  dState = error;
-
   iState += error;
   iState = std::max(std::min(iState, iMax), iMin);
   double iValue = iState * iGain;
+
+  double dValue = dGain * (error - dState);
+  dState = error;
 
   return pValue + iValue + dValue;
 }

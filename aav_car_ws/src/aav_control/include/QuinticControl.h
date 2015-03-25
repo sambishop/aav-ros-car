@@ -20,7 +20,8 @@ namespace aav_control {
     const aav_msgs::QuinticPath *getPathFromGoal();
     boost::mutex goalMutex;
     aav_msgs::DoQuinticPathGoalConstPtr goal;
-    Pid pid;
+    Pid steeringPid;
+    Pid speedPid;
   };
 }
 

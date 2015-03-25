@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "aav_msgs/QuinticPath.h"
-#include "ackermann_msgs/AckermannDrive.h"
+#include "ackermann_msgs/AckermannDriveStamped.h"
 #include "DistanceCalculator.h"
 #include "geometry_msgs/Point.h"
 #include "QuinticControl.h"
@@ -15,7 +15,9 @@ using namespace nav_msgs;
 using namespace ros;
 using namespace std;
 
-QuinticControl::QuinticControl(Publisher *pub) : pid(0, .1, .1, .1, -4, 4)
+QuinticControl::QuinticControl(Publisher *pub)
+    : steeringPid(0, .1, .1, .1, -4, 4),
+      speedPid(0, .1, .1, .1, -4, 4)
 {
   this->pub = pub;
   gsl_set_error_handler_off();
@@ -58,6 +60,16 @@ void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
   if (i == path->segments.size()) {
     return;
   }
-  fprintf(stderr, "t=%f, crossTrackError=%f\n", t, crossTrackError);
+
+  double x_velocity = odometry->twist.twist.linear.x;
+  double y_velocity = odometry->twist.twist.linear.y;
+  double speed = sqrt(x_velocity * x_velocity + y_velocity * y_velocity); 
+
+  ackermann_msgs::AckermannDriveStamped msg;
+  msg.drive.steering_angle = steeringPid.update(crossTrackError);
+  msg.drive.speed = speedPid.update(speed);
+  fprintf(stderr, "t=%f, cte=%f, angle=%f, speed=%f\n",
+      t, crossTrackError, msg.drive.steering_angle, msg.drive.speed);
+  pub->publish(msg);
 }
 
