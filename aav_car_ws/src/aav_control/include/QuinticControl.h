@@ -22,6 +22,7 @@ namespace aav_control {
     aav_msgs::DoQuinticPathGoalConstPtr goal;
     Pid steeringPid;
     Pid speedPid;
+    double speed_cmd_;
   };
 }
 

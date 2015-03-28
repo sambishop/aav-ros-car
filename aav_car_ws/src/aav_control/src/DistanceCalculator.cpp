@@ -2,6 +2,8 @@
 #include <stdio.h>
 
 #include "DistanceCalculator.h"
+#include "geometry_msgs/Quaternion.h"
+#include "tf2/LinearMath/Transform.h"
 
 using namespace aav_msgs;
 using namespace geometry_msgs;
@@ -29,9 +31,33 @@ double DistanceCalculator::findT() {
   return gsl_min_fminimizer_minimum(minimizer);
 }
 
-double DistanceCalculator::calculateCrossTrackError(double t) {
-  double distanceMeasure = calculateDistanceMeasure(t, this);
-  return sqrt(distanceMeasure);
+tf2::Quaternion DistanceCalculator::extractOrientation(const geometry_msgs::Pose &pose) {
+  const geometry_msgs::Quaternion mq(pose.orientation);
+  tf2::Quaternion tf2q(mq.x, mq.y, mq.z, mq.w);
+  return tf2q;
+}
+
+tf2::Vector3 DistanceCalculator::extractPosition(const geometry_msgs::Pose &pose) {
+  const geometry_msgs::Point p(pose.position);
+  tf2::Vector3 v(p.x, p.y, p.z);
+  return v;
+}
+
+tf2::Vector3 DistanceCalculator::calculatePosition(double t) {
+  tf2::Vector3 position;
+  position.setX(calculateSegment(t, &segment->x_segment));
+  position.setY(calculateSegment(t, &segment->y_segment));
+  return position;
+}
+
+double DistanceCalculator::calculateCrossTrackError(double t, const geometry_msgs::Pose &pose) {
+  tf2::Quaternion orientation = extractOrientation(pose);
+  tf2::Vector3 position = extractPosition(pose);
+  tf2::Transform t1(orientation, position);
+  tf2::Vector3 desiredPosition = calculatePosition(t);
+  tf2::Vector3 offset = t1.inverse() * desiredPosition;
+  offset.setZ(0);
+  return (offset.getY() < 0 ? -1 : 1) * offset.length();
 }
 
 double DistanceCalculator::calculateDistanceMeasure(double t, void *that) {

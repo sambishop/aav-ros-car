@@ -1,23 +1,25 @@
 #ifndef _PID_H_
 #define _PID_H_
 
-namespace aav_control {
-  class Pid {
+namespace aav_control
+{
+  class Pid
+  {
   public:
-    Pid(double setPoint, double pGain, double iGain, double dGain,
-        double iMin, double iMax);
+    Pid(double p_gain, double i_gain, double d_gain, double i_min, double i_max);
+    void setSetpoint(double setpoint);
     double update(double value);
 
   private:
-    const double setPoint;
-    const double pGain;
-    const double iGain;
-    const double dGain;
-    const double iMin;
-    const double iMax;
-    double iState;
-    double dState;
-    double error;
+    double setpoint_;
+    const double p_gain_;
+    const double i_gain_;
+    const double d_gain_;
+    const double i_min_;
+    const double i_max_;
+    double i_state_;
+    double d_state_;
+    double error_;
   };
 }
 

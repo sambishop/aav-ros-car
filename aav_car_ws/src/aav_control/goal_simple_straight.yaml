@@ -1,31 +1,41 @@
-goal: {
-  path: {
-    segments: [ {
-        points: [ {
-            x: 0,
-            y: 0,
-            speed: 0,
-            acceleration: 1
-          }
-        ],
-        x_segment: {
-          P0: 0,
-          P1: 0,
-          P2: 0,
-          P3: 0,
-          P4: 0,
-          P5: 0
-        },
-        y_segment: {
-          P0: 0,
-          P1: .1,
-          P2: .2,
-          P3: .8,
-          P4: .9,
-          P5: 1
-        }
-      }
-    ]
-  }
-}
-
+header: 
+  seq: 1
+  stamp: 
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+goal_id: 
+  stamp: 
+    secs: 0
+    nsecs: 0
+  id: ''
+goal: 
+  path: 
+    header: 
+      seq: 0
+      stamp: 
+        secs: 0
+        nsecs: 0
+      frame_id: ''
+    segments: 
+      - 
+        points: 
+          - 
+            x: 0.0
+            y: 0.0
+            speed: 0.0
+            acceleration: 1.0
+        x_segment: 
+          P0: 0.0
+          P1: 0.0
+          P2: 0.0
+          P3: 0.0
+          P4: 0.0
+          P5: 0.0
+        y_segment: 
+          P0: 0.0
+          P1: 0.1
+          P2: 0.2
+          P3: 0.8
+          P4: 0.9
+          P5: 1.0

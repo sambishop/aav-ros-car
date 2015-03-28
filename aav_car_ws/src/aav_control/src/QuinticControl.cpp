@@ -16,8 +16,9 @@ using namespace ros;
 using namespace std;
 
 QuinticControl::QuinticControl(Publisher *pub)
-    : steeringPid(0, .1, .1, .1, -4, 4),
-      speedPid(0, .1, .1, .1, -4, 4)
+    : steeringPid(.5, .1, .1, -4, 4),
+      speedPid(.1, .1, .1, -4, 4),
+      speed_cmd_(0)
 {
   this->pub = pub;
   gsl_set_error_handler_off();
@@ -53,7 +54,7 @@ void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
     DistanceCalculator calculator(&path->segments[i], position);
     t = calculator.findT();
     if (t <= 1.0) {
-      crossTrackError = calculator.calculateCrossTrackError(t);
+      crossTrackError = calculator.calculateCrossTrackError(t, odometry->pose.pose);
       break;
     }
   }
@@ -64,12 +65,11 @@ void QuinticControl::updateOdometry(const Odometry::ConstPtr &odometry) {
   double x_velocity = odometry->twist.twist.linear.x;
   double y_velocity = odometry->twist.twist.linear.y;
   double speed = sqrt(x_velocity * x_velocity + y_velocity * y_velocity); 
+  speedPid.setSetpoint(.2);
 
   ackermann_msgs::AckermannDriveStamped msg;
-  msg.drive.steering_angle = steeringPid.update(crossTrackError);
-  msg.drive.speed = speedPid.update(speed);
-  fprintf(stderr, "t=%f, cte=%f, angle=%f, speed=%f\n",
-      t, crossTrackError, msg.drive.steering_angle, msg.drive.speed);
+  msg.drive.steering_angle = -steeringPid.update(crossTrackError);
+  speed_cmd_ += speedPid.update(speed);
+  msg.drive.speed = speed_cmd_;
   pub->publish(msg);
 }
-
