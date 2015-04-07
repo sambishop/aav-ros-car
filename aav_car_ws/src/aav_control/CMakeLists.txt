@@ -31,6 +31,10 @@ add_executable(
     src/main.cpp
     src/Pid.cpp
     src/QuinticControl.cpp
+
+    src/PathCalculator.cpp
+    src/PathSegmentCalculator.cpp
+    src/SplineSegmentCalculator.cpp
 )
 
 add_dependencies(
