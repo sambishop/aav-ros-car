@@ -15,11 +15,11 @@ class PathCalculator
 public:
   PathCalculator(const aav_msgs::QuinticPath &path);
   ~PathCalculator();
-  tf2::Vector3 calculate(const aav_control::PathPoint &point) const;
+  tf2::Vector3 calculate(const PathPoint &point) const;
 
 private:
   const aav_msgs::QuinticPath &path_;
-  std::vector<const aav_control::PathSegmentCalculator *> calculators_;
+  std::vector<const PathSegmentCalculator *> calculators_;
 };
 
 } // end namespace aav_control

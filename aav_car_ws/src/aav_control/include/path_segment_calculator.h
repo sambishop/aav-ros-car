@@ -17,8 +17,8 @@ public:
 
 private:
   const aav_msgs::QuinticPathSegment &segment_;
-  const aav_control::SplineSegmentCalculator x_calculator_;
-  const aav_control::SplineSegmentCalculator y_calculator_;
+  const SplineSegmentCalculator x_calculator_;
+  const SplineSegmentCalculator y_calculator_;
 };
 
 } // end namespace aav_control
