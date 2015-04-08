@@ -1,4 +1,4 @@
-#include "SplineSegmentCalculator.h"
+#include "spline_segment_calculator.h"
 
 namespace aav_control
 {

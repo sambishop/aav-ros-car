@@ -1,11 +1,11 @@
-#ifndef AAV_CONTROL_PATHCALCULATOR_H
-#define	AAV_CONTROL_PATHCALCULATOR_H
+#ifndef AAV_CONTROL_PATH_CALCULATOR_H
+#define	AAV_CONTROL_PATH_CALCULATOR_H
 
 #include <aav_msgs/QuinticPath.h>
 #include <tf2/LinearMath/Vector3.h>
 
-#include "PathPoint.h"
-#include "PathSegmentCalculator.h"
+#include "path_point.h"
+#include "path_segment_calculator.h"
 
 namespace aav_control
 {

@@ -1,5 +1,5 @@
-#ifndef AAV_CONTROL_PATHPOINT_H
-#define	AAV_CONTROL_PATHPOINT_H
+#ifndef AAV_CONTROL_PATH_POINT_H
+#define	AAV_CONTROL_PATH_POINT_H
 
 namespace aav_control
 {

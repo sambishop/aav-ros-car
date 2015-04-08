@@ -1,11 +1,11 @@
-#ifndef AAV_CONTROL_CROSSTRACKERRORCALCULATOR_H
-#define	AAV_CONTROL_CROSSTRACKERRORCALCULATOR_H
+#ifndef AAV_CONTROL_CROSS_TRACK_ERROR_CALCULATOR_H
+#define	AAV_CONTROL_CROSS_TRACK_ERROR_CALCULATOR_H
 
 #include <nav_msgs/Odometry.h>
 #include <tf2/LinearMath/Vector3.h>
 #include <utility>
 
-#include "PathPoint.h"
+#include "path_point.h"
 
 namespace aav_control
 {

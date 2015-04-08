@@ -1,10 +1,10 @@
-#ifndef AAV_CONTROL_PATHSEGMENTCALCULATOR_H
-#define	AAV_CONTROL_PATHSEGMENTCALCULATOR_H
+#ifndef AAV_CONTROL_PATH_SEGMENT_CALCULATOR_H
+#define	AAV_CONTROL_PATH_SEGMENT_CALCULATOR_H
 
 #include <aav_msgs/QuinticPathSegment.h>
 #include <tf2/LinearMath/Vector3.h>
 
-#include "SplineSegmentCalculator.h"
+#include "spline_segment_calculator.h"
 
 namespace aav_control
 {
