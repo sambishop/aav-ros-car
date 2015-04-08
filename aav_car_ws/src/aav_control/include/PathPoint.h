@@ -4,11 +4,14 @@
 namespace aav_control
 {
 
-struct PathPoint
+class PathPoint
 {
-  PathPoint(unsigned int segment, double t) : segment(segment), t(t)
-  {}
+public:
+  PathPoint(unsigned int segment, double t);
+  unsigned int getSegment() const;
+  double getT() const;
 
+private:
   unsigned int segment;
   double t;
 };

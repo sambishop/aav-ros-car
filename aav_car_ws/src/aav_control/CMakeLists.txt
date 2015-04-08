@@ -32,7 +32,9 @@ add_executable(
     src/Pid.cpp
     src/QuinticControl.cpp
 
+    src/CrossTrackErrorCalculator.cpp
     src/PathCalculator.cpp
+    src/PathPoint.cpp
     src/PathSegmentCalculator.cpp
     src/SplineSegmentCalculator.cpp
 )

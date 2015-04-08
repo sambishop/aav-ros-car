@@ -17,7 +17,7 @@ PathCalculator::~PathCalculator()
 
 tf2::Vector3 PathCalculator::calculate(const PathPoint& point) const
 {
-  return calculators_[point.segment]->calculate(point.t);
+  return calculators_[point.getSegment()]->calculate(point.getT());
 }
 
 } // end namespace aav_control
