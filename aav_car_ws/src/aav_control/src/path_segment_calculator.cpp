@@ -13,5 +13,15 @@ tf2::Vector3 PathSegmentCalculator::calculate(double t) const
   return position;
 }
 
+tf2::Vector3 PathSegmentCalculator::calculate1stDerivative(double t) const
+{
+  tf2::Vector3 position(
+      x_calculator_.calculate1stDerivative(t),
+      y_calculator_.calculate1stDerivative(t),
+      0
+    );
+  return position;
+}
+
 } // end namespace aav_control
 

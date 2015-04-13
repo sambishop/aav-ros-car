@@ -14,6 +14,7 @@ class PathSegmentCalculator
 public:
   PathSegmentCalculator(const aav_msgs::QuinticPathSegment &segment);
   tf2::Vector3 calculate(double t) const;
+  tf2::Vector3 calculate1stDerivative(double t) const;
 
 private:
   const aav_msgs::QuinticPathSegment &segment_;
