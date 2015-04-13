@@ -33,10 +33,8 @@ add_executable(
     src/QuinticControl.cpp
 
     src/cte_calculator.cpp
-    src/path_calculator.cpp
-    src/path_point.cpp
     src/path_segment_calculator.cpp
-    src/pid.cpp
+    #src/pid.cpp
     src/spline_segment_calculator.cpp
 )
 

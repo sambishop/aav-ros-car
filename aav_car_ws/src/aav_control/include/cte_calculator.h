@@ -3,10 +3,9 @@
 
 #include <aav_msgs/QuinticPath.h>
 #include <tf2/LinearMath/Vector3.h>
-#include <utility>
+#include <vector>
 
-#include "path_calculator.h"
-#include "path_point.h"
+#include "path_segment_calculator.h"
 
 namespace aav_control
 {
@@ -15,12 +14,16 @@ class CteCalculator
 {
 public:
   CteCalculator(const aav_msgs::QuinticPath &path);
+  ~CteCalculator();
   double calculate(const tf2::Vector3 &position);
 
 private:
-  std::pair<tf2::Vector3, PathPoint> find(const tf2::Vector3 &position);
-  PathCalculator path_calculator_;
-  PathPoint previousPoint_;
+  double calculateDistanceMeasure(double t, void *that);
+  const aav_msgs::QuinticPath &path_;
+  const tf2::Vector3 *position_;
+  unsigned int segment_index_;
+  double prev_t_;
+  std::vector<const PathSegmentCalculator *> calculators_;
 };
 
 } // end namespace aav_control
