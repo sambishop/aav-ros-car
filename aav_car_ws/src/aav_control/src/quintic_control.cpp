@@ -1,4 +1,4 @@
-#include "quintic_control.h"
+#include "aav_control/quintic_control.h"
 
 namespace aav_control
 {

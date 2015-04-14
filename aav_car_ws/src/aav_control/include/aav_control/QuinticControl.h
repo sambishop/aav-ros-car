@@ -3,9 +3,9 @@
 
 #include <boost/thread/mutex.hpp>
 
+#include "aav_control/Pid.h"
 #include "aav_msgs/DoQuinticPathAction.h"
 #include "nav_msgs/Odometry.h"
-#include "Pid.h"
 #include "ros/ros.h"
 
 namespace aav_control {

@@ -2,7 +2,7 @@
 #include "ackermann_msgs/AckermannDriveStamped.h"
 #include "actionlib/server/simple_action_server.h"
 #include "ros/ros.h"
-#include "QuinticControl.h"
+#include "aav_control/QuinticControl.h"
 
 using namespace aav_control;
 using namespace aav_msgs;

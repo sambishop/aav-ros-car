@@ -4,7 +4,7 @@
 #include <aav_msgs/QuinticPathSegment.h>
 #include <tf2/LinearMath/Vector3.h>
 
-#include "spline_segment_calculator.h"
+#include "aav_control/spline_segment_calculator.h"
 
 namespace aav_control
 {

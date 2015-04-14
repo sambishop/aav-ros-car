@@ -4,9 +4,9 @@
 
 #include "aav_msgs/QuinticPath.h"
 #include "ackermann_msgs/AckermannDriveStamped.h"
-#include "DistanceCalculator.h"
+#include "aav_control/DistanceCalculator.h"
 #include "geometry_msgs/Point.h"
-#include "QuinticControl.h"
+#include "aav_control/QuinticControl.h"
 
 using namespace aav_control;
 using namespace aav_msgs;

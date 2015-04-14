@@ -6,7 +6,7 @@
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 
-#include "pid.h"
+#include "aav_control/pid.h"
 
 namespace aav_control
 {
