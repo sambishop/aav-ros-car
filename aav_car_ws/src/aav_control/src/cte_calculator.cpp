@@ -1,16 +1,18 @@
 #include "aav_control/cte_calculator.h"
 
 #include <cmath>
+#include <gsl/gsl_errno.h>
 #include <limits>
 
 namespace aav_control
 {
 
 CteCalculator::CteCalculator(const aav_msgs::QuinticPath &path)
-  : path_(path)
+  : path_(path), segment_index_(0), prev_t_(0)
 {
   for (unsigned int i = 0; i < path.segments.size(); ++i)
     calculators_.push_back(new PathSegmentCalculator(path.segments[i]));
+  gsl_set_error_handler_off();
   minimizer_ = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
 }
 
@@ -30,9 +32,10 @@ double CteCalculator::calculate(const tf2::Vector3 &position)
   if (std::isnan(t))
     return t;
   tf2::Vector3 point = calculators_[segment_index_]->calculate(t);
-  tf2::Vector3 tangent = calculators_[segment_index_]->calculate1stDerivative(t);
   tf2::Vector3 error = point - position;
-  return error.length();
+  tf2::Vector3 tangent = calculators_[segment_index_]->calculate1stDerivative(t);
+  tf2::Vector3 perp = tangent.cross(error);
+  return error.length() * (perp.getZ() < 0 ? -1 : 1);
 }
 
 double CteCalculator::findT()

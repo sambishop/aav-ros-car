@@ -50,8 +50,22 @@ include_directories(
 
 target_link_libraries(
   aav_control
-  ${catkin_LIBRARIES}
-  ${GSL_LIBRARIES}
+    ${catkin_LIBRARIES}
+    ${GSL_LIBRARIES}
+)
+
+catkin_add_gtest(
+  cte_calculator_test
+    src/cte_calculator.cpp
+    src/path_segment_calculator.cpp
+    src/spline_segment_calculator.cpp
+    test/cte_calculator_test.cpp
+)
+
+target_link_libraries(
+  cte_calculator_test
+    ${catkin_LIBRARIES}
+    ${GSL_LIBRARIES}
 )
 
 roslaunch_add_file_check(launch)
