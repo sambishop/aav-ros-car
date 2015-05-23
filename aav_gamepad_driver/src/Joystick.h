@@ -1,26 +1,21 @@
 #ifndef _JOYSTICK_H_
 #define _JOYSTICK_H_
 
-#include <stdio.h>
 #include <inttypes.h>
 
-enum Axis {
-    X, Y
-};
-
-struct Event {
-    Event(Axis _axis, int16_t _value) : axis(_axis), value(_value) {}
-    const Axis axis;
-    const int16_t value;
+struct Position {
+  Position(int16_t x, int16_t y) : x(x), y(y) {}
+  const int16_t x;
+  const int16_t y;
 };
 
 class Joystick {
-    private:
-        FILE *file;
+  private:
+    int fd;
 
-    public:
-        Joystick(int fd);
-        Event readEvent();
+  public:
+    Joystick(int fd);
+    Position readPosition();
 };
 
 #endif
