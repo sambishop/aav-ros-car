@@ -1,0 +1,14 @@
+
+s=$(($1 * 1000))
+e=$(($2 * 1000))
+
+echo 1400000 > /sys/class/pwm/pwm6/duty_ns
+sleep .1
+echo 1500000 > /sys/class/pwm/pwm6/duty_ns
+sleep .1
+
+for n in $(seq $s -100000 $e); do
+	echo $n
+	echo $n > /sys/class/pwm/pwm6/duty_ns
+done
+
