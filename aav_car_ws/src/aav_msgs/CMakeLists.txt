@@ -3,11 +3,19 @@ project(aav_msgs)
 
 find_package(
   catkin REQUIRED
+    ackermann_msgs
     actionlib_msgs
     genmsg
     message_generation
     roscpp
     std_msgs
+)
+
+add_action_files(
+  DIRECTORY
+    action
+  FILES
+    DoQuinticPath.action
 )
 
 add_message_files(
@@ -20,15 +28,16 @@ add_message_files(
     QuinticSplineSegment.msg
 )
 
-add_action_files(
+add_service_files(
   DIRECTORY
-    action
+    srv
   FILES
-    DoQuinticPath.action
+    AckermannControl.srv
 )
 
 generate_messages(
   DEPENDENCIES
+    ackermann_msgs
     aav_msgs
     actionlib_msgs
     std_msgs
