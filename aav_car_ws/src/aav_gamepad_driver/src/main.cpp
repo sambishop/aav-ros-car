@@ -11,29 +11,33 @@
 #include "ros/ros.h"
 
 #include "Gamepad.h"
-
 using aav_gamepad_driver::Gamepad;
 using aav_gamepad_driver::Position;
 using ackermann_msgs::AckermannDrive;
 
-Gamepad *openGamepad(const char *devicePath) {
-  int fd = open(devicePath, O_RDONLY);
+#define MAX_SPEED_METERS_PER_SECOND 2
+#define MAX_STEERING_ANGLE_DEGREES 30
+
+Gamepad *openGamepad(const char *path) {
+  int fd = open(path, O_RDONLY);
   if (fd == -1) {
-    ROS_FATAL("'%s' attempting to open '%s' for reading\n",
-        strerror(errno), devicePath);
+    ROS_FATAL("'%s' attempting to open '%s' for reading",
+        strerror(errno), path);
     return NULL;
   }
   return new Gamepad(fd);
 }
 
-AckermannDrive readAckermannDrive(Gamepad *joystick) {
-  Position position = joystick->readPosition();
+AckermannDrive positionToAckermann(Position pos) {
   AckermannDrive drive;
-  drive.speed = position.x;
-  drive.steering_angle = position.y;
-//  drive.speed = 4.0 / INT16_MAX * position.y;
-//  drive.steering_angle = (M_PI / 4) / INT16_MAX * position.x;
-//  drive.steering_angle_velocity = M_PI / INT16_MAX * position.x;
+
+  drive.speed = pos.y / 32767.0 * MAX_SPEED_METERS_PER_SECOND;
+
+  // The steering angle should be in radians, with zero as straight
+  // and positive to the left.
+  float multiplier = MAX_STEERING_ANGLE_DEGREES / 90.0 * M_PI / 2;
+  drive.steering_angle = -pos.x / 32767 * multiplier;
+
   return drive;
 }
 
@@ -41,15 +45,16 @@ int main(int argc, char **argv) {
   //ros::init(argc, argv, ROS_PACKAGE_NAME);
   //ros::NodeHandle node;
   //Publisher publisher = node.advertise<AckermannDriveStamped>("/ackermann_vehicle/ackermann_cmd", 1000);
-  Gamepad *joystick = openGamepad("/dev/input/js0");
-  if (joystick == NULL) {
+  Gamepad *gamepad = openGamepad("/dev/input/js0");
+  if (gamepad == NULL) {
     return 2;
   }
 
   //while (ros::ok()) {
   while (1) {
-    AckermannDrive drive = readAckermannDrive(joystick);
-    ROS_INFO("speed = %f, steering_angle = %f\n",
+    Position pos = gamepad->readPosition();
+    AckermannDrive drive = positionToAckermann(pos);
+    ROS_INFO("speed = %f, steering_angle = %f",
         drive.speed, drive.steering_angle);
     //publisher.publish(msg);
     //ros::spinOnce();

@@ -1,7 +1,10 @@
 #include <linux/joystick.h>
+#include <math.h>
 #include <unistd.h>
 
 #include "Gamepad.h"
+
+#define DEADZONE 5
 
 using aav_gamepad_driver::Gamepad;
 using aav_gamepad_driver::Position;
@@ -33,8 +36,12 @@ Position Gamepad::readPosition() {
   int16_t old_y = y;
 
   while (x == -32768 || y == -32768 || (x == old_x && y == old_y)) {
-    read(fd_, &e, sizeof(e));
+    read(fd_, &e, sizeof(e));  // TODO check return value
     if ((e.type & ~JS_EVENT_INIT) == JS_EVENT_AXIS) {
+      if (e.value >= -DEADZONE && e.value <= DEADZONE) {
+        e.value = 0;
+      }
+
       if (e.number == 0) {
         x = e.value;
       } else if (e.number == 1) {
