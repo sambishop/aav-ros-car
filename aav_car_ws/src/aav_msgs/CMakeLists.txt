@@ -28,13 +28,6 @@ add_message_files(
     QuinticSplineSegment.msg
 )
 
-add_service_files(
-  DIRECTORY
-    srv
-  FILES
-    AckermannControl.srv
-)
-
 generate_messages(
   DEPENDENCIES
     ackermann_msgs
