@@ -2,6 +2,7 @@
 #define AAV_GAMEPAD_DRIVER_GAMEPAD_H
 
 #include <inttypes.h>
+#include <sys/select.h>
 
 namespace aav_gamepad_driver {
 
@@ -22,6 +23,9 @@ struct Position {
 class Gamepad {
 private:
   int fd_;
+  timeval timeout_;
+  void resetTimeout();
+  int waitForUpdate();
 
 public:
   Gamepad(int fd);

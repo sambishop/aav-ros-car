@@ -11,6 +11,19 @@ using aav_gamepad_driver::Position;
 
 Gamepad::Gamepad(int fd) {
   this->fd_ = fd;
+  resetTimeout();
+}
+
+void Gamepad::resetTimeout() {
+  timeout_.tv_sec = 0;
+  timeout_.tv_usec = 250000;
+}
+
+int Gamepad::waitForUpdate() {
+  fd_set set;
+  FD_ZERO(&set);
+  FD_SET(fd_, &set);
+  return select(fd_ + 1, &set, NULL, NULL, &timeout_);
 }
 
 Position Gamepad::readPosition() {
@@ -36,6 +49,10 @@ Position Gamepad::readPosition() {
   int16_t old_y = y;
 
   while (x == -32768 || y == -32768 || (x == old_x && y == old_y)) {
+    if (waitForUpdate() == 0) {
+      resetTimeout();
+      return Position(x, -y);
+    }
     read(fd_, &e, sizeof(e));  // TODO check return value
     if ((e.type & ~JS_EVENT_INIT) == JS_EVENT_AXIS) {
       if (e.value >= -DEADZONE && e.value <= DEADZONE) {
@@ -49,6 +66,7 @@ Position Gamepad::readPosition() {
       }
     }
   }
+  resetTimeout();
   return Position(x, -y);
 }
 
