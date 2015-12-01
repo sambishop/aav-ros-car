@@ -16,7 +16,7 @@ using namespace aav_gamepad_driver;
 using namespace ackermann_msgs;
 using namespace ros;
 
-#define MAX_SPEED_METERS_PER_SECOND 2
+#define MAX_SPEED_METERS_PER_SECOND 4
 #define MAX_STEERING_ANGLE_DEGREES 30
 
 Gamepad *openGamepad(const char *path) {
@@ -35,9 +35,13 @@ AckermannDriveStamped positionToAckermann(Position pos) {
   msg.drive.speed = pos.y / 32767.0 * MAX_SPEED_METERS_PER_SECOND;
 
   // The steering angle is in radians, with zero as straight and
-  // positive to the left.
-  float multiplier = MAX_STEERING_ANGLE_DEGREES / 90.0 * M_PI / 2;
-  msg.drive.steering_angle = -pos.x / 32767 * multiplier;
+  // positive to the left.  Convert the x component of the stick
+  // position to an angle, clamp to MAX_STEERING_ANGLE_DEGREES,
+  // and then convert to radians.
+  float steering_angle = -pos.x / 32767.0 * 90;
+  steering_angle = fminf(steering_angle, MAX_STEERING_ANGLE_DEGREES);
+  steering_angle = fmaxf(steering_angle, -MAX_STEERING_ANGLE_DEGREES);
+  msg.drive.steering_angle = steering_angle / 180 * M_PI;
 
   return msg;
 }
