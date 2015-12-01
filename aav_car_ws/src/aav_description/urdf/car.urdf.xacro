@@ -421,6 +421,8 @@ limitations under the License.
       <updateRate>50.0</updateRate>
       <bodyName>base_link</bodyName>
       <topicName>imu/data</topicName>
+      <rpyOffset>0.0 0.0 0.0</rpyOffset>
+      <xyzOffset>0.0 0.0 0.0</xyzOffset>
     </plugin>
   </gazebo>
 
