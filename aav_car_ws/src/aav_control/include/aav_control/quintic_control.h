@@ -15,11 +15,11 @@ class QuinticControl
 {
 public:
   QuinticControl(ros::Publisher *publisher);
-  void updateGoal(const aav_msgs::DoQuinticPathGoalConstPtr &goal);
-  void updateOdometry(const nav_msgs::Odometry::ConstPtr &odometry);
+  void updateGoal(aav_msgs::DoQuinticPathGoalConstPtr &goal);
+  void updateOdometry(nav_msgs::Odometry::ConstPtr &odometry);
 
 private:
-  const aav_msgs::QuinticPath *getPathFromGoal();
+  aav_msgs::QuinticPathConstPtr getPathFromGoal();
   ros::Publisher *publisher_;
   Pid steering_pid_;
   Pid speed_pid_;

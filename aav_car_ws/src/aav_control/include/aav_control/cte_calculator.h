@@ -19,7 +19,7 @@ public:
   double calculate(const tf2::Vector3 &position);
 
 private:
-  static double calculateDistanceMeasure(double t, void *that);
+  static double calculateDistance(double t, void *that);
   double findT();
   const aav_msgs::QuinticPath &path_;
   const tf2::Vector3 *position_;

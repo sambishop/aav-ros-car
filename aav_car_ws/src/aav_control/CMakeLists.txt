@@ -27,14 +27,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 add_executable(
   aav_control
-    src/DistanceCalculator.cpp
-    src/main.cpp
-    src/Pid.cpp
-    src/QuinticControl.cpp
+    #src/DistanceCalculator.cpp
+    #src/Pid.cpp
+    #src/QuinticControl.cpp
 
     src/cte_calculator.cpp
+    src/main.cpp
     src/path_segment_calculator.cpp
-    #src/pid.cpp
+    src/pid.cpp
+    src/quintic_control.cpp
     src/spline_segment_calculator.cpp
 )
 

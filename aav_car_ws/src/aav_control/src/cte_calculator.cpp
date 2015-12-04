@@ -41,7 +41,7 @@ double CteCalculator::calculate(const tf2::Vector3 &position)
 double CteCalculator::findT()
 {
   gsl_function func;
-  func.function = &CteCalculator::calculateDistanceMeasure;
+  func.function = &CteCalculator::calculateDistance;
   func.params = this;
   double t;
   while (true)
@@ -83,7 +83,7 @@ double CteCalculator::findT()
   return t;
 }
 
-double CteCalculator::calculateDistanceMeasure(double t, void *that)
+double CteCalculator::calculateDistance(double t, void *that)
 {
   CteCalculator *c = static_cast<CteCalculator *>(that);
   tf2::Vector3 point = c->calculators_[c->segment_index_]->calculate(t);

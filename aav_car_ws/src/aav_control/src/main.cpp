@@ -12,6 +12,7 @@ using namespace ros;
 
 int main(int argc, char **argv) {
   init(argc, argv, "aav_control");
+  /*
   NodeHandle node;
 
   Publisher pub = node.advertise<AckermannDriveStamped>(
@@ -39,7 +40,6 @@ int main(int argc, char **argv) {
   goal.path.segments.push_back(segment);
   control.updateGoal(aav_msgs::DoQuinticPathGoalConstPtr(&goal));
 
-  /*
   SimpleActionServer<DoQuinticPathAction> server(
       node,
       "control",
