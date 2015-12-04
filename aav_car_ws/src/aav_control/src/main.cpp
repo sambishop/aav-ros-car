@@ -1,29 +1,22 @@
+#include "aav_control/quintic_control.h"
 #include "aav_msgs/DoQuinticPathAction.h"
 #include "ackermann_msgs/AckermannDriveStamped.h"
 #include "actionlib/server/simple_action_server.h"
 #include "ros/ros.h"
-#include "aav_control/QuinticControl.h"
-
-using namespace aav_control;
-using namespace aav_msgs;
-using namespace ackermann_msgs;
-using namespace actionlib;
-using namespace ros;
 
 int main(int argc, char **argv) {
-  init(argc, argv, "aav_control");
-  /*
-  NodeHandle node;
+  ros::init(argc, argv, ROS_PACKAGE_NAME);
+  ros::NodeHandle node;
 
-  Publisher pub = node.advertise<AckermannDriveStamped>(
+  ros::Publisher pub = node.advertise<ackermann_msgs::AckermannDriveStamped>(
       "ackermann_cmd",
       1000
     );
-  QuinticControl control(&pub);
-  Subscriber sub = node.subscribe(
+  aav_control::QuinticControl control(&pub);
+  ros::Subscriber sub = node.subscribe(
       "odometry/filtered",
       1000,
-      &QuinticControl::updateOdometry,
+      &aav_control::QuinticControl::updateOdometry,
       &control
     );
   aav_msgs::PlanningPoint pp;
@@ -38,18 +31,18 @@ int main(int argc, char **argv) {
   segment.x_segment.P5 = 10.0;
   aav_msgs::DoQuinticPathGoal goal;
   goal.path.segments.push_back(segment);
-  control.updateGoal(aav_msgs::DoQuinticPathGoalConstPtr(&goal));
+  aav_msgs::DoQuinticPathGoalConstPtr goal_ptr(&goal);
+  control.updateGoal(goal_ptr);
 
-  SimpleActionServer<DoQuinticPathAction> server(
+  actionlib::SimpleActionServer<aav_msgs::DoQuinticPathAction> server(
       node,
       "control",
-      boost::bind(&QuinticControl::updateGoal, &control, _1),
+      boost::bind(&aav_control::QuinticControl::updateGoal, &control, _1),
       false
     );
   server.start();
-   */
 
-  spin();
+  ros::spin();
   return 0;
 }
 

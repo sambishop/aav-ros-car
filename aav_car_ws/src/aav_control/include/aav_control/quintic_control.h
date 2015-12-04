@@ -15,8 +15,8 @@ class QuinticControl
 {
 public:
   QuinticControl(ros::Publisher *publisher);
-  void updateGoal(aav_msgs::DoQuinticPathGoalConstPtr &goal);
-  void updateOdometry(nav_msgs::Odometry::ConstPtr &odometry);
+  void updateGoal(aav_msgs::DoQuinticPathGoalConstPtr goal);
+  void updateOdometry(nav_msgs::Odometry::ConstPtr odometry);
 
 private:
   aav_msgs::QuinticPathConstPtr getPathFromGoal();

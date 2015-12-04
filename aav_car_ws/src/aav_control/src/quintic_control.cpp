@@ -13,14 +13,14 @@ QuinticControl::QuinticControl(ros::Publisher *publisher)
 {
 }
 
-void QuinticControl::updateGoal(aav_msgs::DoQuinticPathGoalConstPtr &goal)
+void QuinticControl::updateGoal(aav_msgs::DoQuinticPathGoalConstPtr goal)
 {
   goal_mutex_.lock();
   goal_ = goal;
   goal_mutex_.unlock();
 }
 
-void QuinticControl::updateOdometry(nav_msgs::Odometry::ConstPtr &odometry) {
+void QuinticControl::updateOdometry(nav_msgs::Odometry::ConstPtr odometry) {
   aav_msgs::QuinticPath path;
   goal_mutex_.lock();
   if (goal_)
