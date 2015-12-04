@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-  <node name="aav_control2" pkg="aav_control2" type="aav_control2">
-  </node>
-</launch>
-
