@@ -23,12 +23,12 @@ int main(int argc, char **argv) {
   pp.acceleration = 1.0;
   aav_msgs::QuinticPathSegment segment;
   segment.points.push_back(pp);
-  segment.x_segment.P0 = 0.0;
-  segment.x_segment.P1 = 1.0;
-  segment.x_segment.P2 = 2.0;
-  segment.x_segment.P3 = 8.0;
-  segment.x_segment.P4 = 9.0;
-  segment.x_segment.P5 = 10.0;
+  segment.y_segment.P0 = 0.0;
+  segment.y_segment.P1 = 1.0;
+  segment.y_segment.P2 = 2.0;
+  segment.y_segment.P3 = 8.0;
+  segment.y_segment.P4 = 9.0;
+  segment.y_segment.P5 = 10.0;
   aav_msgs::DoQuinticPathGoal goal;
   goal.path.segments.push_back(segment);
   aav_msgs::DoQuinticPathGoalConstPtr goal_ptr(&goal);

@@ -20,7 +20,6 @@ private:
   double setpoint_;
   double i_state_;
   double d_state_;
-  double error_;
 };
 
 } // end namespace aav_control
