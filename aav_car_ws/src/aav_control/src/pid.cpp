@@ -5,9 +5,12 @@
 namespace aav_control
 {
 
-Pid::Pid(double p_gain, double i_gain, double d_gain, double i_min, double i_max)
-  : p_gain_(p_gain), i_gain_(i_gain), d_gain_(d_gain),
-    i_min_(i_min), i_max_(i_max)
+Pid::Pid(ros::NodeHandle nh)
+  : p_gain_(nh.param("p_gain", .1)),
+    i_gain_(nh.param("i_gain", 0)),
+    d_gain_(nh.param("d_gain", -.2)),
+    i_min_(nh.param("i_min", -4)),
+    i_max_(nh.param("i_max", 4))
 {}
 
 void Pid::setSetpoint(double setpoint)

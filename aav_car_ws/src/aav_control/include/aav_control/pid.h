@@ -1,13 +1,15 @@
 #ifndef AAV_CONTROL_PID_H
 #define AAV_CONTROL_PID_H
 
+#include <ros/node_handle.h>
+
 namespace aav_control
 {
 
 class Pid
 {
 public:
-  Pid(double p_gain, double i_gain, double d_gain, double i_min, double i_max);
+  Pid(ros::NodeHandle nh);
   void setSetpoint(double setpoint);
   double update(double value);
 

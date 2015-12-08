@@ -9,8 +9,8 @@ namespace aav_control
 
 QuinticControl::QuinticControl(ros::Publisher *publisher)
     : publisher_(publisher),
-      steering_pid_(.1, 0, -.2, -4, 4),
-      speed_pid_(.1, 0, -.2, -4, 4),
+      steering_pid_(ros::NodeHandle("~steering_pid")),
+      speed_pid_(ros::NodeHandle("~speed_pid")),
       speed_cmd_(0)
 {
 }
