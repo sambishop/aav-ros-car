@@ -2,16 +2,8 @@
 
 <launch>
   <node ns="car" name="control" pkg="aav_control" type="aav_control">
-    <rosparam>
-      steering_pid:
-        p_gain: .1
-        i_gain: 0
-        d_gain: -.2
-      speed_pid:
-        p_gain: .1
-        i_gain: 0
-        d_gain: -.2
-    </rosparam>
+    <rosparam file="$(find aav_control)/config/speed_pid.yaml"/>
+    <rosparam file="$(find aav_control)/config/steering_pid.yaml"/>
   </node>
 
   <node pkg="robot_localization" type="ekf_localization_node"
