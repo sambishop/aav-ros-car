@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="namespace" default="ackermann_vehicle"/>
+  <arg name="namespace" default="car"/>
 
   <include file="$(find aav_description)/launch/description.launch">
     <arg name="namespace" value="$(arg namespace)"/>

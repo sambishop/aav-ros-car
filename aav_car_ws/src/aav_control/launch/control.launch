@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
 <launch>
-  <node ns="ackermann_vehicle" name="control" pkg="aav_control" type="aav_control">
+  <node ns="car" name="control" pkg="aav_control" type="aav_control">
   </node>
 
   <node pkg="robot_localization" type="ekf_localization_node"
-    name="ekf_localization" clear_params="true" ns="ackermann_vehicle">
+    name="ekf_localization" clear_params="true" ns="car">
 
     <param name="frequency" value="30"/>
     <param name="sensor_timeout" value="2"/>
@@ -28,7 +28,7 @@
   </node>
 
   <node pkg="robot_localization" type="navsat_transform_node"
-      name="navsat_transform_node" ns="ackermann_vehicle" respawn="true" output="screen">
+      name="navsat_transform_node" ns="car" respawn="true" output="screen">
     <param name="magnetic_declination_radians" value="0"/>
   </node>
 </launch>

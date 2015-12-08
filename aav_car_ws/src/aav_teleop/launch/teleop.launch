@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="namespace" default="car"/>
+  <arg name="cmd_timeout" default="0.5"/>
+
+  <group ns="$(arg namespace)">
+    <node name="aav_gamepad_driver" pkg="aav_gamepad_driver"
+        type="aav_gamepad_driver"/>
+  </group>
+</launch>
+

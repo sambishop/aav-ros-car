@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="namespace" default="car"/>
+  <arg name="cmd_timeout" default="0.5"/>
+
+  <group ns="$(arg namespace)">
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+          args="$(find aav_gazebo)/config/joint_ctrlr_params.yaml"/>
+
+    <node name="ackermann_controller" pkg="aav_gazebo"
+        type="ackermann_controller.py">
+      <param name="cmd_timeout" value="$(arg cmd_timeout)"/>
+      <rosparam file="$(find aav_gazebo)/config/ackermann_ctrlr_params.yaml"
+          command="load"/>
+    </node>
+  </group>
+</launch>
+

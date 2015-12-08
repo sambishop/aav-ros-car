@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <name>aav_teleop</name>
+  <version>0.0.2</version>
+  <description>Teleop package for the AAV vehicle</description>
+
+  <maintainer email="samuel.j.bishop@gmail.com">Sam Bishop</maintainer>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roslaunch</build_depend>
+
+  <run_depend>ackermann_msgs</run_depend>
+  <run_depend>aav_gamepad_driver</run_depend>
+
+  <export>
+  </export>
+</package>
