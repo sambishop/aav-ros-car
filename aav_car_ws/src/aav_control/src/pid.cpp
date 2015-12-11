@@ -14,9 +14,7 @@ Pid::Pid(ros::NodeHandle nh)
     setpoint_(0),
     i_state_(0),
     d_state_(0)
-{
-  fprintf(stderr, "p[%f], i[%f, %f, %f], d[%f]\n", p_gain_, i_gain_, i_min_, i_max_, d_gain_);
-}
+{}
 
 void Pid::setSetpoint(double setpoint)
 {
