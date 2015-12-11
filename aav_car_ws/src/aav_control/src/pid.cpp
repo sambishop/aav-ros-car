@@ -10,7 +10,10 @@ Pid::Pid(ros::NodeHandle nh)
     i_gain_(nh.param("i_gain", 0)),
     d_gain_(nh.param("d_gain", 0)),
     i_min_(nh.param("i_min", 0)),
-    i_max_(nh.param("i_max", 0))
+    i_max_(nh.param("i_max", 0)),
+    setpoint_(0),
+    i_state_(0),
+    d_state_(0)
 {}
 
 void Pid::setSetpoint(double setpoint)
