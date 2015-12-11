@@ -29,10 +29,9 @@ int main(int argc, char **argv) {
   segment.y_segment.P3 = 8.0;
   segment.y_segment.P4 = 9.0;
   segment.y_segment.P5 = 10.0;
-  aav_msgs::DoQuinticPathGoal goal;
-  goal.path.segments.push_back(segment);
-  aav_msgs::DoQuinticPathGoalConstPtr goal_ptr(&goal);
-  control.updateGoal(goal_ptr);
+  aav_msgs::DoQuinticPathGoalPtr goal(new aav_msgs::DoQuinticPathGoal());
+  goal->path.segments.push_back(segment);
+  control.updateGoal(goal);
 
   actionlib::SimpleActionServer<aav_msgs::DoQuinticPathAction> server(
       node,
