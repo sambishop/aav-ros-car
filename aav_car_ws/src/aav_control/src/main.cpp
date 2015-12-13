@@ -19,19 +19,6 @@ int main(int argc, char **argv) {
       &aav_control::QuinticControl::updateOdometry,
       &control
     );
-  aav_msgs::PlanningPoint pp;
-  pp.acceleration = 1.0;
-  aav_msgs::QuinticPathSegment segment;
-  segment.points.push_back(pp);
-  segment.y_segment.P0 = 0.0;
-  segment.y_segment.P1 = 1.0;
-  segment.y_segment.P2 = 2.0;
-  segment.y_segment.P3 = 8.0;
-  segment.y_segment.P4 = 9.0;
-  segment.y_segment.P5 = 10.0;
-  aav_msgs::DoQuinticPathGoalPtr goal(new aav_msgs::DoQuinticPathGoal());
-  goal->path.segments.push_back(segment);
-  control.updateGoal(goal);
 
   actionlib::SimpleActionServer<aav_msgs::DoQuinticPathAction> server(
       node,
