@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="namespace" default="car"/>
-
-  <node name="rviz" pkg="rviz" type="rviz" ns="$(arg namespace)"
+  <node name="rviz" pkg="rviz" type="rviz"
         args="-d $(find aav_rviz)/rviz/car.rviz"/>
 </launch>
 

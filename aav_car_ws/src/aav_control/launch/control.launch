@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-  <node ns="car" name="control" pkg="aav_control" type="aav_control">
+  <node name="control" pkg="aav_control" type="aav_control">
     <rosparam file="$(find aav_control)/config/speed_pid.yaml"/>
     <rosparam file="$(find aav_control)/config/steering_pid.yaml"/>
   </node>

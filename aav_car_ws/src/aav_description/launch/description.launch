@@ -1,40 +1,37 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="namespace" default="car"/>
-  <group ns="$(arg namespace)">
-    <arg name="model" default="$(find aav_description)/urdf/car.urdf.xacro"/>
-    <param name="robot_description"
-        command="$(find xacro)/xacro --inorder '$(arg model)'"/>
-    <node name="robot_state_publisher" pkg="robot_state_publisher"
-        type="robot_state_publisher"/>
+  <arg name="model" default="$(find aav_description)/urdf/car.urdf.xacro"/>
+  <param name="robot_description"
+      command="$(find xacro)/xacro --inorder '$(arg model)'"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+      type="robot_state_publisher"/>
 
-    <node pkg="robot_localization" type="ekf_localization_node"
-      name="ekf_localization" clear_params="true">
+  <node pkg="robot_localization" type="ekf_localization_node"
+    name="ekf_localization" clear_params="true">
 
-      <param name="frequency" value="30"/>
-      <param name="sensor_timeout" value="2"/>
+    <param name="frequency" value="30"/>
+    <param name="sensor_timeout" value="2"/>
 
-      <param name="imu0" value="imu/data"/>
-      <rosparam param="imu0_config">[false, false, false,
-                                     true,  true,  true,
-                                     false, false, false,
-                                     false, false, false,
-                                     true,  true,  true]</rosparam>
-      <param name="imu0_differential" value="true"/>
-      <param name="imu0_remove_gravitational_acceleration" value="true"/>
+    <param name="imu0" value="imu/data"/>
+    <rosparam param="imu0_config">[false, false, false,
+                                   true,  true,  true,
+                                   false, false, false,
+                                   false, false, false,
+                                   true,  true,  true]</rosparam>
+    <param name="imu0_differential" value="true"/>
+    <param name="imu0_remove_gravitational_acceleration" value="true"/>
 
-      <param name="odom0" value="odometry/gps"/>
-      <rosparam param="odom0_config">[true,  true,  true, 
-                                     false, false, false, 
-                                     false, false, false, 
-                                     false, false, false,
-                                     false, false, false]</rosparam>
-    </node>
+    <param name="odom0" value="odometry/gps"/>
+    <rosparam param="odom0_config">[true,  true,  true, 
+                                   false, false, false, 
+                                   false, false, false, 
+                                   false, false, false,
+                                   false, false, false]</rosparam>
+  </node>
 
-    <node pkg="robot_localization" type="navsat_transform_node"
-        name="navsat_transform_node" respawn="true" output="screen">
-      <param name="magnetic_declination_radians" value="0"/>
-    </node>
-  </group>
+  <node pkg="robot_localization" type="navsat_transform_node"
+      name="navsat_transform_node" respawn="true" output="screen">
+    <param name="magnetic_declination_radians" value="0"/>
+  </node>
 </launch>
 
