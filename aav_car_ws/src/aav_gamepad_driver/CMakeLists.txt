@@ -11,7 +11,7 @@ find_package(
 catkin_package()
 
 add_executable(
-  aav_gamepad_driver
+  ${PROJECT_NAME}
     src/Gamepad.cpp
     src/main.cpp
 )

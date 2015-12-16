@@ -12,9 +12,7 @@ find_package(
     roslaunch
 )
 
-find_package(
-  GSL REQUIRED
-)
+find_package(GSL REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
@@ -26,7 +24,7 @@ catkin_package(
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 add_executable(
-  aav_control
+  ${PROJECT_NAME}
     src/cte_calculator.cpp
     src/main.cpp
     src/path_segment_calculator.cpp
@@ -36,7 +34,7 @@ add_executable(
 )
 
 add_dependencies(
-  aav_control
+  ${PROJECT_NAME}
     ${aav_msgs_EXPORTED_TARGETS}
 )
 
@@ -46,7 +44,7 @@ include_directories(
 )
 
 target_link_libraries(
-  aav_control
+  ${PROJECT_NAME}
     ${catkin_LIBRARIES}
     ${GSL_LIBRARIES}
 )
