@@ -10,7 +10,10 @@ find_package(
 catkin_package(
   CATKIN_DEPENDS
     aav_msgs
-    roscpp
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    ${PROJECT_NAME}
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")

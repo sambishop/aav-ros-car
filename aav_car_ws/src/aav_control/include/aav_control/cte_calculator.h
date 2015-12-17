@@ -2,11 +2,10 @@
 #define	AAV_CONTROL_CTE_CALCULATOR_H
 
 #include <aav_msgs/QuinticPath.h>
+#include <aav_quintic/path_segment_calculator.h>
 #include <gsl/gsl_min.h>
 #include <tf2/LinearMath/Vector3.h>
 #include <vector>
-
-#include "aav_control/path_segment_calculator.h"
 
 namespace aav_control
 {
@@ -25,7 +24,7 @@ private:
   const tf2::Vector3 *position_;
   unsigned int segment_index_;
   double prev_t_;
-  std::vector<const PathSegmentCalculator *> calculators_;
+  std::vector<const aav_quintic::PathSegmentCalculator *> calculators_;
   gsl_min_fminimizer *minimizer_;
 };
 

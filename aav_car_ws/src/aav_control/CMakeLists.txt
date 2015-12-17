@@ -4,6 +4,7 @@ project(aav_control)
 find_package(
   catkin REQUIRED
     aav_msgs
+    aav_quintic
     ackermann_msgs
     actionlib
     cmake_modules
@@ -14,12 +15,7 @@ find_package(
 
 find_package(GSL REQUIRED)
 
-catkin_package(
-  CATKIN_DEPENDS
-    aav_msgs
-    ackermann_msgs
-    roscpp
-)
+catkin_package()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
@@ -27,10 +23,8 @@ add_executable(
   ${PROJECT_NAME}
     src/cte_calculator.cpp
     src/main.cpp
-    src/path_segment_calculator.cpp
     src/pid.cpp
     src/quintic_control.cpp
-    src/spline_segment_calculator.cpp
 )
 
 add_dependencies(
@@ -40,11 +34,13 @@ add_dependencies(
 
 include_directories(
   include
+  ${aav_quintic_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
 target_link_libraries(
   ${PROJECT_NAME}
+    ${aav_quintic_LIBRARIES}
     ${catkin_LIBRARIES}
     ${GSL_LIBRARIES}
 )
@@ -52,8 +48,6 @@ target_link_libraries(
 catkin_add_gtest(
   cte_calculator_test
     src/cte_calculator.cpp
-    src/path_segment_calculator.cpp
-    src/spline_segment_calculator.cpp
     test/cte_calculator_test.cpp
 )
 

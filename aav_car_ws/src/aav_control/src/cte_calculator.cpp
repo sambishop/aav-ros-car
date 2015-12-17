@@ -11,7 +11,7 @@ CteCalculator::CteCalculator(const aav_msgs::QuinticPath &path)
   : path_(path), segment_index_(0), prev_t_(0)
 {
   for (unsigned int i = 0; i < path.segments.size(); ++i)
-    calculators_.push_back(new PathSegmentCalculator(path.segments[i]));
+    calculators_.push_back(new aav_quintic::PathSegmentCalculator(path.segments[i]));
   gsl_set_error_handler_off();
   minimizer_ = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
 }
