@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /Grid1
         - /RobotModel1
+        - /AAV Quintic Path1
       Splitter Ratio: 0.652952
     Tree Height: 558
   - Class: rviz/Selection
@@ -142,6 +143,13 @@ Visualization Manager:
       Update Interval: 0
       Value: true
       Visual Enabled: true
+    - Alpha: 1
+      Class: AAV Quintic Path
+      Color: 25; 255; 0
+      Enabled: true
+      Name: AAV Quintic Path
+      Topic: /control/goal
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -166,22 +174,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 10
+      Distance: 8.28153
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: 0.82864
+        Y: 2.1242
+        Z: -2.38419e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.355399
+      Pitch: 0.360399
       Target Frame: base_link
       Value: ThirdPersonFollower (rviz)
-      Yaw: 0.815398
+      Yaw: 0.735398
     Saved: ~
 Window Geometry:
   Displays:
@@ -199,5 +207,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1577
-  X: 55
-  Y: 14
+  X: 83
+  Y: 106

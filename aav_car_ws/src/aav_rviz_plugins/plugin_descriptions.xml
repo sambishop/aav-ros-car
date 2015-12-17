@@ -1,0 +1,10 @@
+
+<library path="lib/libaav_rviz_plugins">
+  <class
+      name="AAV Quintic Path"
+      type="aav_rviz_plugins::QuinticPathDisplay"
+      base_class_type="rviz::Display">
+    <description>A display tool for AAV quintic paths.</description>
+  </class>
+</library>
+
