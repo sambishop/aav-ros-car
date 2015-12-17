@@ -35,7 +35,7 @@ add_executable(
 
 add_dependencies(
   ${PROJECT_NAME}
-    ${aav_msgs_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
 )
 
 include_directories(
