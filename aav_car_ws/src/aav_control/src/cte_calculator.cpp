@@ -8,18 +8,14 @@ namespace aav_control
 {
 
 CteCalculator::CteCalculator(const aav_msgs::QuinticPath &path)
-  : path_(path), segment_index_(0), prev_t_(0)
+  : segment_index_(0), prev_t_(0), path_calculator_(path)
 {
-  for (unsigned int i = 0; i < path.segments.size(); ++i)
-    calculators_.push_back(new aav_quintic::PathSegmentCalculator(path.segments[i]));
   gsl_set_error_handler_off();
   minimizer_ = gsl_min_fminimizer_alloc(gsl_min_fminimizer_brent);
 }
 
 CteCalculator::~CteCalculator()
 {
-  for (unsigned int i = 0; i < calculators_.size(); ++i)
-    delete calculators_[i];
   gsl_min_fminimizer_free(minimizer_);
 }
 
@@ -31,9 +27,9 @@ double CteCalculator::calculate(const tf2::Vector3 &position)
   double t = findT();
   if (std::isnan(t))
     return t;
-  tf2::Vector3 point = calculators_[segment_index_]->calculate(t);
+  tf2::Vector3 point = path_calculator_.calculate(segment_index_, t);
   tf2::Vector3 error = point - position;
-  tf2::Vector3 tangent = calculators_[segment_index_]->calculate1stDerivative(t);
+  tf2::Vector3 tangent = path_calculator_.calculate1stDerivative(segment_index_, t);
   tf2::Vector3 perp = tangent.cross(error);
   return error.length() * (perp.getZ() < 0 ? -1 : 1);
 }
@@ -65,7 +61,7 @@ double CteCalculator::findT()
     }
     else if (t > 1)
     {
-      if (segment_index_ == calculators_.size() - 1)
+      if (segment_index_ == path_calculator_.numSegments() - 1)
       {
         t = std::numeric_limits<double>::quiet_NaN();
         break;
@@ -86,7 +82,7 @@ double CteCalculator::findT()
 double CteCalculator::calculateDistance(double t, void *that)
 {
   CteCalculator *c = static_cast<CteCalculator *>(that);
-  tf2::Vector3 point = c->calculators_[c->segment_index_]->calculate(t);
+  tf2::Vector3 point = c->path_calculator_.calculate(c->segment_index_, t);
   return tf2::tf2Distance2(point, *c->position_);
 }
 
