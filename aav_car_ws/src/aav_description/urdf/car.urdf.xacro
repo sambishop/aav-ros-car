@@ -418,17 +418,41 @@ limitations under the License.
   <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>/</robotNamespace>
-      <updateRate>50.0</updateRate>
+      <updateRate>20</updateRate>
       <bodyName>base_link</bodyName>
       <topicName>imu/data</topicName>
       <rpyOffset>0.0 0.0 0.0</rpyOffset>
       <xyzOffset>0.0 0.0 0.0</xyzOffset>
+
+      <!-- This is the orientation acceleration covariance matrix according to the
+           Razor IMU node:
+           0.0025 0.0000 0.0000
+           0.0000 0.0025 0.0000
+           0.0000 0.0000 0.0025
+        -->
+      <yawGaussianNoise>.05</yawGaussianNoise>
+
+      <!-- This is the angular acceleration covariance matrix according to the Razor
+           IMU node:
+           0.02 0.00 0.00
+           0.00 0.02 0.00
+           0.00 0.00 0.02
+        -->
+      <rateGaussianNoise>0.1414213562373095 0.1414213562373095 0.1414213562373095</rateGaussianNoise>
+
+      <!-- This is the linear acceleration covariance matrix according to the Razor
+           IMU node:
+             0.04 0.00 0.00
+             0.00 0.04 0.00
+             0.00 0.00 0.04
+        -->
+      <accelGaussianNoise>.2 .2 .2</accelGaussianNoise>
     </plugin>
   </gazebo>
 
   <gazebo>
     <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
-      <updateRate>10</updateRate>
+      <updateRate>100</updateRate>
       <robotNamespace>/</robotNamespace>
       <bodyName>base_link</bodyName>
       <frameId>base_link</frameId>
@@ -438,7 +462,6 @@ limitations under the License.
       <referenceLongitude>-116.330745</referenceLongitude>
       <referenceHeading>0</referenceHeading>
       <referenceAltitude>824</referenceAltitude>
-      <drift>0.0001 0.0001 0.0001</drift>
     </plugin>
   </gazebo>
 </robot>

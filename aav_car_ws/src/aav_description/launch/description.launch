@@ -9,7 +9,7 @@
   <node pkg="robot_localization" type="ekf_localization_node"
     name="ekf_localization" clear_params="true">
 
-    <param name="frequency" value="30"/>
+    <param name="frequency" value="10"/>
     <param name="sensor_timeout" value="2"/>
 
     <param name="imu0" value="imu/data"/>
@@ -18,7 +18,6 @@
                                    false, false, false,
                                    false, false, false,
                                    true,  true,  true]</rosparam>
-    <param name="imu0_differential" value="true"/>
     <param name="imu0_remove_gravitational_acceleration" value="true"/>
 
     <param name="odom0" value="odometry/gps"/>
@@ -32,6 +31,7 @@
   <node pkg="robot_localization" type="navsat_transform_node"
       name="navsat_transform_node" respawn="true" output="screen">
     <param name="magnetic_declination_radians" value="0"/>
+    <param name="yaw_offset" value="1.5707963"/>
   </node>
 </launch>
 
