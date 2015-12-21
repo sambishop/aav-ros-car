@@ -360,21 +360,6 @@ limitations under the License.
     <material>Gazebo/Grey</material>
   </gazebo>
 
-  <link name="unicycle_pivot">
-    <visual>
-      <geometry>
-        <box size="0.01 0.01 0.01"/>
-      </geometry>
-      <material name="chassis_mat"/>
-    </visual>
-  </link>
-
-  <joint name="base_link_to_unicycle_pivot" type="fixed">
-    <parent link="base_link"/>
-    <child link="unicycle_pivot"/>
-    <origin xyz="${wheelbase / 2} 0 0"/>
-  </joint>
-
   <!-- Chassis -->
   <link name="chassis">
     <visual>
@@ -402,9 +387,10 @@ limitations under the License.
     <material>Gazebo/Grey</material>
   </gazebo>
 
-  <joint name="base_link_to_chasis" type="fixed">
+  <joint name="base_link_to_chassis" type="fixed">
     <parent link="base_link"/>
     <child link="chassis"/>
+    <origin xyz="-${wheelbase / 2} 0 0"/>
   </joint>
 
   <!-- Batteries -->
