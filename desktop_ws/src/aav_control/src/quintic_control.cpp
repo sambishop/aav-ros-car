@@ -1,14 +1,16 @@
-#include "aav_control/quintic_control.h"
-#include "aav_control/cte_calculator.h"
-#include "ackermann_msgs/AckermannDriveStamped.h"
+#include <aav_control/quintic_control.h>
+#include <aav_control/cte_calculator.h>
+#include <ackermann_msgs/AckermannDriveStamped.h>
+#include <std_msgs/Float64.h>
 
 #include <stdio.h>
 
 namespace aav_control
 {
 
-QuinticControl::QuinticControl(ros::Publisher *publisher)
-    : publisher_(publisher),
+QuinticControl::QuinticControl(ros::Publisher *cmd_pub, ros::Publisher *cte_pub)
+    : cmd_pub_(cmd_pub),
+      cte_pub_(cte_pub),
       steering_pid_(ros::NodeHandle("~steering_pid")),
       speed_pid_(ros::NodeHandle("~speed_pid")),
       speed_cmd_(0)
@@ -48,10 +50,11 @@ void QuinticControl::updateOdometry(nav_msgs::Odometry::ConstPtr odometry) {
   else
     speed_cmd_ += speed_pid_.update(speed);
   msg.drive.speed = speed_cmd_;
+  cmd_pub_->publish(msg);
 
-  publisher_->publish(msg);
-  fprintf(stderr, "[x=%f, y=%f, z=%f], cte=%f, [x_vel=%f, y_vel=%f, speed=%f]\n",
-      point.x, point.y, point.z, cte, x_vel, y_vel, speed);
+  std_msgs::Float64 cte_msg;
+  cte_msg.data = cte;
+  cte_pub_->publish(cte_msg);
 }
 
 } // end namespace aav_control

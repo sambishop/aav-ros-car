@@ -14,13 +14,14 @@ namespace aav_control
 class QuinticControl
 {
 public:
-  QuinticControl(ros::Publisher *publisher);
+  QuinticControl(ros::Publisher *cmd_pub, ros::Publisher *cte_pub);
   void updateGoal(aav_msgs::DoQuinticPathGoalConstPtr goal);
   void updateOdometry(nav_msgs::Odometry::ConstPtr odometry);
 
 private:
   aav_msgs::QuinticPathConstPtr getPathFromGoal();
-  ros::Publisher *publisher_;
+  ros::Publisher *cmd_pub_;
+  ros::Publisher *cte_pub_;
   Pid steering_pid_;
   Pid speed_pid_;
   double speed_cmd_;
