@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+
+import subprocess
+import sys
+
+pid = {
+    'p': sys.argv[1],
+    'i': sys.argv[2],
+    'd': sys.argv[3]
+}
+
+subprocess.Popen(['roslaunch', 'aav_gazebo', 'car.launch'])
+
+#pid_file = open('config/steering_pid.yaml', 'w')
+
