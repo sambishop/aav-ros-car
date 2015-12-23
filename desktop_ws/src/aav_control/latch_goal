@@ -1,0 +1,2 @@
+rostopic pub /control/goal aav_msgs/DoQuinticPathActionGoal --latch --file=$1
+

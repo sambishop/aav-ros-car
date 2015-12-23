@@ -1,2 +1,2 @@
-rostopic pub /control/goal aav_msgs/DoQuinticPathActionGoal -1 -f $1
+rostopic pub /control/goal aav_msgs/DoQuinticPathActionGoal --once --file=$1
 
