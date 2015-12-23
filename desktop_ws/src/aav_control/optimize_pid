@@ -1,15 +1,88 @@
 #!/usr/bin/python3
 
+import os
+import re
+from scipy.optimize import minimize
+import signal
 import subprocess
 import sys
+import time
 
-pid = {
-    'p': sys.argv[1],
-    'i': sys.argv[2],
-    'd': sys.argv[3]
-}
+procs = []
 
-subprocess.Popen(['roslaunch', 'aav_gazebo', 'car.launch'])
+def run_in_background(args):
+    proc = subprocess.Popen(args, preexec_fn=os.setsid, shell=True)
+    procs.append(proc)
+    return proc
 
-#pid_file = open('config/steering_pid.yaml', 'w')
+def kill(proc):
+    os.killpg(proc.pid, signal.SIGTERM)
+    proc.wait()
+    procs.remove(proc)
+
+def kill_and_wait_for_children():
+    for proc in procs:
+        kill(proc)
+    time.sleep(1)
+
+def run(args):
+    subprocess.call(args, shell=True)
+
+def calculate_measure(cte_file):
+    num_values = 0
+    sum = 0
+    with open(cte_file, 'r') as f:
+        for line in f:
+            if line.startswith('data:') and not line.startswith('data: nan'):
+                num_values += 1
+                sum += abs(float(line.split(' ')[1]))
+    print(sum, num_values, sum / num_values)
+    return sum / num_values
+
+bag_file_number = 0
+def run_sim(x):
+    global bag_file_number
+    p, i, d = x[0], x[1], x[2]
+
+    roscore_node = run_in_background('roscore')
+    time.sleep(1)
+
+    run_in_background('roslaunch aav_gazebo gazebo.launch gui:=false')
+    time.sleep(1)
+
+    with open('config/steering_pid.yaml', 'w') as pid_file:
+        pid_file.write('''\
+steering_pid:
+  p_gain: {0:0f}
+  i_gain: {1:0f}
+  d_gain: {2:0f}
+  i_min: -4.0
+  i_max: 4.0
+'''.format(p, i, d))
+
+    cte_file = '{0:05d}'.format(bag_file_number) + '_p_{0:0f}_i_{1:0f}_d_{2:0f}.cte'.format(p, i, d)
+    control_node = run_in_background('roslaunch aav_control control.launch')
+    time.sleep(1)
+    run_in_background('rostopic echo /cte > ' + cte_file)
+
+    run('./publish_goal goal_simple_straight.yaml')
+    run('tail -f ' + cte_file + ' | grep -m 1 -e nan')
+
+    kill(control_node)
+    time.sleep(1)
+
+    run('pkill -f indigo')
+    time.sleep(35)
+
+    bag_file_number += 1
+    return calculate_measure(cte_file)
+
+
+x0 = [float(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3])]
+
+try:
+    res = minimize(run_sim, x0, method='nelder-mead')
+    print(res.x)
+finally:
+    kill_and_wait_for_children()
 

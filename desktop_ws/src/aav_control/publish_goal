@@ -1,2 +1,4 @@
+#!/bin/sh
+
 rostopic pub /control/goal aav_msgs/DoQuinticPathActionGoal --once --file=$1
 
