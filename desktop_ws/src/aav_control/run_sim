@@ -1,0 +1,37 @@
+#!/usr/bin/python3
+
+import os
+import subprocess
+import sys
+import time
+
+def run_in_background(args):
+    subprocess.Popen(args, preexec_fn=os.setsid, shell=True)
+
+def run(args):
+    subprocess.call(args, shell=True)
+
+try:
+    p, i, d, cte_file = sys.argv[1:5]
+    with open('config/steering_pid.yaml', 'w') as pid_file:
+        pid_file.write('''\
+steering_pid:
+  p_gain: {0}
+  i_gain: {1}
+  d_gain: {2}
+  i_min: -4.0
+  i_max: 4.0
+'''.format(p, i, d))
+
+    run_in_background('roslaunch aav_control gazebo.launch gui:=false')
+    time.sleep(5)
+
+    run_in_background('rostopic echo /cte > ' + cte_file)
+    time.sleep(1)
+
+    run('./publish_goal goal_simple_straight.yaml')
+    run('tail -f ' + cte_file + ' | grep -m 1 -e nan')
+finally:
+    run('pkill -f -9 indigo')
+    time.sleep(1)
+

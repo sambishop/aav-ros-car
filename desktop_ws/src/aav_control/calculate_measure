@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+
+import sys
+
+def calculate_measure(cte_file):
+    num_values = 0
+    sum = 0
+    with open(cte_file, 'r') as f:
+        for line in f:
+            if line.startswith('data:') and not line.startswith('data: nan'):
+                num_values += 1
+                sum += abs(float(line.split(' ')[1]))
+    return sum / num_values
+
+print(sys.argv[1], calculate_measure(sys.argv[1]))
