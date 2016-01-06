@@ -2,8 +2,11 @@
 #include <aav_msgs/DoQuinticPathAction.h>
 #include <ackermann_msgs/AckermannDriveStamped.h>
 #include <actionlib/server/simple_action_server.h>
+#include <gazebo_msgs/ModelStates.h>
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
+
+#include "aav_control/gazebo_state_forwarder.h"
 
 int main(int argc, char **argv)
 {
@@ -19,11 +22,20 @@ int main(int argc, char **argv)
       1000
     );
   aav_control::QuinticControl control(&cmd_pub, &cte_pub);
+  /*
   ros::Subscriber sub = node.subscribe(
       "odometry/filtered",
       1000,
       &aav_control::QuinticControl::updateOdometry,
       &control
+    );
+  */
+  aav_control::GazeboStateForwarder forwarder(control, "car");
+  ros::Subscriber sub = node.subscribe(
+      "/gazebo/model_states",
+      1000,
+      &aav_control::GazeboStateForwarder::forwardState,
+      &forwarder
     );
 
   actionlib::SimpleActionServer<aav_msgs::DoQuinticPathAction> server(

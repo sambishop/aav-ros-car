@@ -8,8 +8,8 @@ import time
 def run_in_background(args):
     subprocess.Popen(args, preexec_fn=os.setsid, shell=True)
 
-def run(args):
-    subprocess.call(args, shell=True)
+def run(args, timeout=None):
+    subprocess.call(args, shell=True, timeout=timeout)
 
 try:
     p, i, d, cte_file = sys.argv[1:5]
@@ -23,14 +23,14 @@ steering_pid:
   i_max: 4.0
 '''.format(p, i, d))
 
-    run_in_background('roslaunch aav_control gazebo.launch gui:=false')
+    run_in_background('roslaunch aav_control gazebo.launch')# gui:=false')
     time.sleep(5)
 
     run_in_background('rostopic echo /cte > ' + cte_file)
     time.sleep(1)
 
     run('./publish_goal goal_simple_straight.yaml')
-    run('tail -f ' + cte_file + ' | grep -m 1 -e nan')
+    run('tail -f ' + cte_file + ' | grep -m 1 -e nan', timeout=90)
 finally:
     run('pkill -f -9 indigo')
     time.sleep(1)

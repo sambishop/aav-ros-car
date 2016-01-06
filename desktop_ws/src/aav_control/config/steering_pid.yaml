@@ -1,7 +1,6 @@
 steering_pid:
-  p_gain: 0.75
-  i_gain: 0.0
-  d_gain: -0.2
+  p_gain: 4.72973731
+  i_gain: -0.014779
+  d_gain: 0.23458199
   i_min: -4.0
   i_max: 4.0
-

@@ -37,9 +37,10 @@ void QuinticControl::updateOdometry(nav_msgs::Odometry::ConstPtr odometry) {
   speed_pid_.setSetpoint(.2);
 
   const geometry_msgs::Point &point = odometry->pose.pose.position;
-  tf2::Vector3 position(point.x, point.y, point.z);
+  tf2::Vector3 position(point.x, point.y, 0);
   aav_control::CteCalculator calculator(path);
   double cte = calculator.calculate(position);
+  publishCte(cte);
   msg.drive.steering_angle = std::isnan(cte) ? 0 : -steering_pid_.update(cte);
 
   double x_vel = odometry->twist.twist.linear.x;
@@ -51,7 +52,10 @@ void QuinticControl::updateOdometry(nav_msgs::Odometry::ConstPtr odometry) {
     speed_cmd_ += speed_pid_.update(speed);
   msg.drive.speed = speed_cmd_;
   cmd_pub_->publish(msg);
+}
 
+void QuinticControl::publishCte(double cte)
+{
   std_msgs::Float64 cte_msg;
   cte_msg.data = cte;
   cte_pub_->publish(cte_msg);

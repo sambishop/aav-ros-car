@@ -20,6 +20,7 @@ public:
 
 private:
   aav_msgs::QuinticPathConstPtr getPathFromGoal();
+  void publishCte(double cte);
   ros::Publisher *cmd_pub_;
   ros::Publisher *cte_pub_;
   Pid steering_pid_;
